@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
 import {Toggle} from "react-toggle-component"
+import Results from './Model/Results'
+import Diagnosis from './Model/Diagnosis'
 
 class App extends Component {
   state = {
@@ -58,12 +60,26 @@ class App extends Component {
   togglePhysicalHandler = () => {
     const doesShow = this.state.showPhysical
     this.setState({showPhysical: !doesShow});
-  }
+  };
 
   toggleLabHandler = () => {
     const doesShow = this.state.showLab
     this.setState({showLab: !doesShow});
-  }
+  };
+
+  calculateHandler = () => {
+    //TODO: Create the "model" and call it here
+    const diag = new Diagnosis(this.state);
+    const res = new Results();
+
+    res.setDiagnosisStrategy(diag);
+
+    console.log(res.result)
+
+
+
+
+  };
 
   render(){
 
