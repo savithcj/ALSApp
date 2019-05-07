@@ -135,7 +135,7 @@ class App extends Component {
     };
 
     return (
-      <div>
+      <div className="App">
         <h1>ALS Calculator</h1>
         <button 
           onClick={this.togglePhysicalHandler}>
