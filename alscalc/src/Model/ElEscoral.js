@@ -1,47 +1,44 @@
-//Regular javascript class that acts as the model
-//contains the logic to determine the diagnosis according 
-//to the three criteria
-
-class Diagnosis {
+class ElEscoral {
 
     constructor(selections){
+
         this.selections = selections;
+
+        this.UMNLevel = this.calcHighestLevel("umn");
+        this.LMNLevel = this.calcHighestLevel("lmn");
+
+        this.regionsWithUMN = this.countRegions("umn");
+        this.regionsWithLMN = this.countRegions("lmn");
+
+        this.spinalRegionsWithUMN = this.countSpinalRegions("umn");
+        this.spinalRegionsWithLMN = this.countSpinalRegions("lmn");
+
+        this.UMNAndLMNInBrainstem = this.containsTwoFindingsInOneRegion("umn", "lmn", "brainstem");
     };
 
     calculateDiagnosis(){
 
-        let UMNLevel = this.calcHighestLevel("umn");
-        let LMNLevel = this.calcHighestLevel("lmn");
-
-        let regionsWithUMN = this.countRegions("umn");
-        let regionsWithLMN = this.countRegions("lmn");
-
-        let spinalRegionsWithUMN = this.countSpinalRegions("umn");
-        let spinalRegionsWithLMN = this.countSpinalRegions("lmn");
-
-        let UMNAndLMNInBrainstem = this.containsTwoFindingsInOneRegion("umn", "lmn", "brainstem");
-
         //Definite ALS
-        if ((UMNAndLMNInBrainstem && spinalRegionsWithUMN >= 2 && spinalRegionsWithLMN >= 2) ||
-                (spinalRegionsWithUMN === 3 && spinalRegionsWithLMN === 3)) {
+        if ((this.UMNAndLMNInBrainstem && this.spinalRegionsWithUMN >= 2 && this.spinalRegionsWithLMN >= 2) ||
+                (this.spinalRegionsWithUMN === 3 && this.spinalRegionsWithLMN === 3)) {
                 return "Definite ALS"
             };
 
         //Probable ALS
-        if ((regionsWithUMN >= 2 && regionsWithLMN >= 2) &&
-                ((UMNLevel < LMNLevel) || this.selections.tilt)) {
-                     return "Probable ALS" 
+        if ((this.regionsWithUMN >= 2 && this.regionsWithLMN >= 2) &&
+                ((this.UMNLevel < this.LMNLevel) || this.selections.tilt)) {
+                    return "Probable ALS" 
             };
 
         //Possible ALS
         if (this.areBothFindingsPresentInOneRegion() ||
-                (regionsWithUMN >= 2 && regionsWithLMN === 0) ||
-                (UMNLevel > LMNLevel && UMNLevel !== 5)) {
+                (this.regionsWithUMN >= 2 && this.regionsWithLMN === 0) ||
+                (this.UMNLevel > this.LMNLevel && this.UMNLevel !== 5)) {
                 return "Possible ALS"
             };
 
         //Suspected ALS
-        if (regionsWithLMN >= 2) {
+        if (this.regionsWithLMN >= 2) {
             return "Suspected ALS"
             };
 
@@ -93,4 +90,4 @@ class Diagnosis {
     };
 };
 
-export default Diagnosis;
+export default ElEscoral;

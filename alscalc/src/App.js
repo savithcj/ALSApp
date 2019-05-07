@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import {Toggle} from "react-toggle-component"
 import Results from './Model/Results'
-import Diagnosis from './Model/Diagnosis'
+import ElEscoral from './Model/ElEscoral'
 
 class App extends Component {
   state = {
@@ -69,10 +69,10 @@ class App extends Component {
 
   calculateHandler = () => {
     //TODO: Create the "model" and call it here
-    const diag = new Diagnosis(this.state);
+    const elE = new ElEscoral(this.state);
     const res = new Results();
 
-    res.setDiagnosisStrategy(diag);
+    res.setDiagnosisStrategy(elE);
 
     console.log(res.result)
 
