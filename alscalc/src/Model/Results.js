@@ -2,7 +2,7 @@ class Results {
 
     constructor(){
         this.diagnosis = null;
-        this.result = "--";
+        this.result = null;
     
     }
 

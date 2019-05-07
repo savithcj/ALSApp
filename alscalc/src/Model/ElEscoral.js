@@ -18,26 +18,22 @@ class ElEscoral {
 
     calculateDiagnosis(){
 
-        //Definite ALS
         if ((this.UMNAndLMNInBrainstem && this.spinalRegionsWithUMN >= 2 && this.spinalRegionsWithLMN >= 2) ||
                 (this.spinalRegionsWithUMN === 3 && this.spinalRegionsWithLMN === 3)) {
                 return "Definite ALS"
             };
 
-        //Probable ALS
         if ((this.regionsWithUMN >= 2 && this.regionsWithLMN >= 2) &&
                 ((this.UMNLevel < this.LMNLevel) || this.selections.tilt)) {
                     return "Probable ALS" 
             };
 
-        //Possible ALS
         if (this.areBothFindingsPresentInOneRegion() ||
                 (this.regionsWithUMN >= 2 && this.regionsWithLMN === 0) ||
                 (this.UMNLevel > this.LMNLevel && this.UMNLevel !== -1)) {
                 return "Possible ALS"
             };
 
-        //Suspected ALS
         if (this.regionsWithLMN >= 2) {
             return "Suspected ALS"
             };
@@ -47,7 +43,7 @@ class ElEscoral {
 
     calcHighestLevel(finding){
         for (let i=0; i<this.selections.regions.length; i++){
-            if(this.selections.regions[i][finding]){
+            if(this.isFindingPresent(finding, this.selections.regions[i].id)){
                 return i;
             };
         };
@@ -57,7 +53,7 @@ class ElEscoral {
     countRegions(finding){
         let count =0;
         for(let i=0; i<this.selections.regions.length; i++){
-           count = count + this.selections.regions[i][finding]
+           count += this.isFindingPresent(finding, this.selections.regions[i].id)
         };
 
         return count;
@@ -70,13 +66,10 @@ class ElEscoral {
     };
 
     containsTwoFindingsInOneRegion(finding1, finding2, region){
-        const regionIndex = this.selections.regions.findIndex(r => {
-            return r.id === region;
-        });
 
         return (
-            this.selections.regions[regionIndex][finding1] && this.selections.regions[regionIndex][finding2]
-        );
+            this.isFindingPresent(finding1, region) && this.isFindingPresent(finding2, region)
+        );    
 
     };
 
@@ -87,6 +80,21 @@ class ElEscoral {
             };
         };
         return false;
+    };
+
+    //returns true if a finding is present according to the El Escorial criteria
+    isFindingPresent(finding, region){
+
+        return this.isPhysicalFindingPresent(finding, region);
+
+    };
+
+    isPhysicalFindingPresent(finding, region){
+        const regionIndex = this.selections.regions.findIndex(r => {
+            return r.id === region;
+        });
+
+        return this.selections.regions[regionIndex][finding];
     };
 };
 

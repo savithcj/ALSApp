@@ -3,6 +3,8 @@ import './App.css';
 import {Toggle} from "react-toggle-component"
 import Results from './Model/Results'
 import ElEscoral from './Model/ElEscoral'
+import AirlieHouse from './Model/AirlieHouse'
+import AwajiShima from './Model/AwajiShima'
 
 class App extends Component {
   state = {
@@ -70,15 +72,22 @@ class App extends Component {
   calculateHandler = () => {
     //TODO: Create the "model" and call it here
     const elE = new ElEscoral(this.state);
+    const airlie = new AirlieHouse(this.state);
+    const awaji = new AwajiShima(this.state);
+
     const res = new Results();
 
     res.setDiagnosisStrategy(elE);
 
-    console.log(res.result)
+    console.log("el escoral: "+res.result)
 
+    res.setDiagnosisStrategy(airlie);
 
+    console.log("airlie: "+res.result)
 
+    res.setDiagnosisStrategy(awaji);
 
+    console.log("awaji: "+res.result)
   };
 
   render(){
@@ -146,7 +155,6 @@ class App extends Component {
           })}
           </div>
       )
-
 
     };
 
