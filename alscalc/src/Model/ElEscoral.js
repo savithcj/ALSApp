@@ -33,7 +33,7 @@ class ElEscoral {
         //Possible ALS
         if (this.areBothFindingsPresentInOneRegion() ||
                 (this.regionsWithUMN >= 2 && this.regionsWithLMN === 0) ||
-                (this.UMNLevel > this.LMNLevel && this.UMNLevel !== 5)) {
+                (this.UMNLevel > this.LMNLevel && this.UMNLevel !== -1)) {
                 return "Possible ALS"
             };
 
@@ -48,7 +48,7 @@ class ElEscoral {
     calcHighestLevel(finding){
         for (let i=0; i<this.selections.regions.length; i++){
             if(this.selections.regions[i][finding]){
-                return i+1;
+                return i;
             };
         };
         return -1;
