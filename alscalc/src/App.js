@@ -7,13 +7,22 @@ import AirlieHouse from './Model/AirlieHouse'
 import AwajiShima from './Model/AwajiShima'
 
 class App extends Component {
+
+  constructor(){
+    super();
+    this.results = new Results();
+    this.elEDiag = "";
+    this.airlieDiag = "";
+    this.awajiDiag = "";
+  };
+
   state = {
     
       regions: [
-      {id: "brainstem", umn: false, lmn: false, fibs: false, fasics: false, chronicDenerv: false},
-      {id: "cervical", umn: false, lmn: false, fibs: false, fasics: false, chronicDenerv: false},
-      {id: "thoracic", umn: false, lmn: false, fibs: false, fasics: false, chronicDenerv: false},
-      {id: "lumbosacral", umn: false, lmn: false, fibs: false, fasics: false, chronicDenerv: false}],
+      {id: "Brainstem", umn: false, lmn: false, fibs: false, fasics: false, chronicDenerv: false},
+      {id: "Cervical", umn: false, lmn: false, fibs: false, fasics: false, chronicDenerv: false},
+      {id: "Thoracic", umn: false, lmn: false, fibs: false, fasics: false, chronicDenerv: false},
+      {id: "Lumbosacral", umn: false, lmn: false, fibs: false, fasics: false, chronicDenerv: false}],
 
       gene:false,
       tilt:false,
@@ -21,6 +30,8 @@ class App extends Component {
       showPhysical: false,
       showLab: false,
       showDiagnosisCriteria: false,
+      isTiltNeeded: false,
+      showResults:false,
 
   };
 
@@ -56,7 +67,15 @@ class App extends Component {
 
     this.setState( {regions:regions} )
 
+  };
 
+  geneButtonHandler = (event)=> {
+    this.setState({gene:event.target.checked})
+  };
+
+  tiltButtonHandler = (event) => {
+    this.setState({tilt:event.target.checked})
+    this.showResults();
   };
 
   togglePhysicalHandler = () => {
@@ -69,25 +88,36 @@ class App extends Component {
     this.setState({showLab: !doesShow});
   };
 
-  calculateHandler = () => {
-    //TODO: Create the "model" and call it here
+  resultsHandler = () => {
+    const awaji = new AwajiShima(this.state);
+
+    this.results.setDiagnosisStrategy(awaji);
+
+    this.setState({isTiltNeeded:this.results.diagnosis.UMNAndLMNSignsAtSameLevel});
+
+    this.showResults();
+
+  };
+
+
+  showResults(){
     const elE = new ElEscoral(this.state);
     const airlie = new AirlieHouse(this.state);
     const awaji = new AwajiShima(this.state);
 
-    const res = new Results();
+    this.results.setDiagnosisStrategy(elE);
 
-    res.setDiagnosisStrategy(elE);
+    this.elEDiag = this.results.result;
 
-    console.log("el escoral: "+res.result)
+    this.results.setDiagnosisStrategy(airlie);
 
-    res.setDiagnosisStrategy(airlie);
+    this.airlieDiag = this.results.result;
 
-    console.log("airlie: "+res.result)
+    this.results.setDiagnosisStrategy(awaji);
 
-    res.setDiagnosisStrategy(awaji);
+    this.awajiDiag = this.results.result;
 
-    console.log("awaji: "+res.result)
+    this.setState({showResults:true});
   };
 
   render(){
@@ -100,7 +130,9 @@ class App extends Component {
             {this.state.regions.map((region)=>{
             return (
               <div key={region.id}>
-                {region.id}
+                <span className="regionName">
+                  {region.id}
+                </span>
             <Toggle
               name={region.id + "umn"} 
               onChange={(event) => this.changedHandler(event, region.id, 0)}
@@ -131,28 +163,52 @@ class App extends Component {
             {this.state.regions.map((region)=>{
             return (
               <div key={region.id}>
-                {region.id}
-            <Toggle
-              name={region.id + "fibs"} 
-              onChange={(event) => this.changedHandler(event, region.id, 2)}
-              checked={region.fibs}/>
+                <span className="regionName">
+                  {region.id}
+                </span>
+                <Toggle
+                name={region.id + "fibs"} 
+                onChange={(event) => this.changedHandler(event, region.id, 2)}
+                checked={region.fibs}/>
 
-              <Toggle
-              name={region.id + "fasics"} 
-              onChange={(event) => this.changedHandler(event, region.id, 3)}
-              checked={region.fasics}/>
+                <Toggle
+                name={region.id + "fasics"} 
+                onChange={(event) => this.changedHandler(event, region.id, 3)}
+                checked={region.fasics}/>
 
-              <Toggle
-              name={region.id + "chronic"} 
-              onChange={(event) => this.changedHandler(event, region.id, 4)}
-              checked={region.chronicDenerv}/>    
+                <Toggle
+                name={region.id + "chronic"} 
+                onChange={(event) => this.changedHandler(event, region.id, 4)}
+                checked={region.chronicDenerv}/>    
 
-              <hr />
+                <hr />
 
               </div>
               
               )
           })}
+            <span>
+              Gene
+              <Toggle
+                name = "gene"
+                onChange = {(event) => this.geneButtonHandler(event)}
+                checked = {this.state.gene}
+              />
+            </span>
+          </div>
+      )
+
+    };
+
+    let results = null;
+
+    if (this.state.showResults){
+      results = (
+
+          <div>
+            ElEscoral: {this.elEDiag} <br/>
+            AirlieHouse: {this.airlieDiag} <br/>
+            AwajiShima: {this.awajiDiag} 
           </div>
       )
 
@@ -165,21 +221,51 @@ class App extends Component {
           onClick={this.togglePhysicalHandler}>
           Physical
         </button>
-        {physicalComponent}
+        
 
         <button 
           onClick={this.toggleLabHandler}>
           Lab
         </button>
-        {labComponent}
+        
 
         <button
-          onClick={this.calculateHandler}>
-          Calculate
+          onClick={this.resultsHandler}>
+          Results
         </button>
+        {this.state.isTiltNeeded ? <span>
+              Tilt
+              <Toggle
+                name = "tilt"
+                onChange = {(event) => this.tiltButtonHandler(event)}
+                checked = {this.state.tilt}
+              />
+            </span> : null}
+
+            {/* <div>
+              Physical <br/>
+              <span>
+                Region
+              </span>
+
+              <span>
+                Upper 
+                Motor 
+                Finding
+              </span>
+
+              <div>
+                Lower Motor Finding
+              </div>
+
+            </div> */}
+
+          {physicalComponent}
+          {labComponent}
+          {results}
+
       </div>
     );
-
 
   };
 

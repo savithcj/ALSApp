@@ -8,7 +8,8 @@ class AirlieHouse extends ElEscoral {
         this.regionsWithLMNByPhysicalOnly = this.countPhsyicalRegions("lmn");
         this.regionsWithLMNByEMGOnly = this.countLMNRegionsByEMG();
         this.spinalRegionsWithLMNByPhysicalOnly = this.countPhysicalSpinalRegions("lmn")
-        this.UMNAndLMNInBrainstemByPhysicalOnly = this.containsTwoPhysicalFindingsInOneRegion("umn", "lmn", "brainstem");
+        this.UMNAndLMNInBrainstemByPhysicalOnly = this.containsTwoPhysicalFindingsInOneRegion("umn", "lmn", "Brainstem");
+        this.UMNAndLMNSignsAtSameLevel = this.isUMNAndLMNAtSameLevel();
     };
 
     calculateDiagnosis(){
@@ -33,12 +34,30 @@ class AirlieHouse extends ElEscoral {
         };
 
         if (this.areBothFindingsPresentInOnePhysicalRegion() ||
-                (this.regionsWithUMN >= 2 && this.regionsWithLMN === 0) ||
+                (this.regionsWithUMN >= 2) ||  //VERIFY WITH RODNEY
                 (this.UMNLevel > this.LMNLevel && this.regionsWithUMN >= 1)) {
                 return "Clinically Possible ALS"
             }
 
         return "--";
+    };
+
+    isUMNAndLMNAtSameLevel(){
+        const fasicsHighestRegion = this.calculateHighestPhysicalLevel("fasics");
+
+        if (((this.UMNLevel === this.LMNLevel) || (this.UMNLevel === fasicsHighestRegion)) && this.UMNLevel !== -1) { 
+            return true
+        }
+        return false
+    };
+
+    calculateHighestPhysicalLevel(finding){
+        for (let i=0; i<this.selections.regions.length; i++){
+            if(this.isPhysicalFindingPresent(finding, this.selections.regions[i].id)){
+                return i;
+            };
+        };
+        return -1;
     };
 
     countPhsyicalRegions(finding){

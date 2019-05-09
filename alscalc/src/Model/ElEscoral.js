@@ -13,7 +13,7 @@ class ElEscoral {
         this.spinalRegionsWithUMN = this.countSpinalRegions("umn");
         this.spinalRegionsWithLMN = this.countSpinalRegions("lmn");
 
-        this.UMNAndLMNInBrainstem = this.containsTwoFindingsInOneRegion("umn", "lmn", "brainstem");
+        this.UMNAndLMNInBrainstem = this.containsTwoFindingsInOneRegion("umn", "lmn", "Brainstem");
     };
 
     calculateDiagnosis(){

@@ -19,7 +19,7 @@ class AwajiShima extends AirlieHouse {
         };
 
         if (this.areBothFindingsPresentInOneRegion() ||
-                (this.regionsWithUMN >= 2 && this.regionsWithLMN === 0) ||
+                (this.regionsWithUMN >= 2) ||  //VERIFY WITH RODNEY
                 (this.UMNLevel > this.LMNLevel && this.regionsWithUMN >= 1)) {
             return "Clinically Possible ALS";
         };
