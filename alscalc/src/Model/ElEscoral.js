@@ -29,8 +29,8 @@ class ElEscoral {
             };
 
         if (this.areBothFindingsPresentInOneRegion() ||
-                (this.regionsWithUMN >= 2 && this.regionsWithLMN === 0) ||
-                (this.UMNLevel > this.LMNLevel && this.UMNLevel !== -1)) {
+                (this.regionsWithUMN >= 2) ||
+                (this.UMNLevel > this.LMNLevel && this.regionsWithUMN > 0)) {
                 return "Possible ALS"
             };
 
@@ -47,7 +47,7 @@ class ElEscoral {
                 return i;
             };
         };
-        return -1;
+        return 5;
     };
 
     countRegions(finding){
@@ -60,6 +60,7 @@ class ElEscoral {
     };
 
     countSpinalRegions(finding){
+        
         return (
             this.countRegions(finding)-this.selections.regions[0][finding]
         );

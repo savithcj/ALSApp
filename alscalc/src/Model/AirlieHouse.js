@@ -9,7 +9,7 @@ class AirlieHouse extends ElEscoral {
         this.regionsWithLMNByEMGOnly = this.countLMNRegionsByEMG();
         this.spinalRegionsWithLMNByPhysicalOnly = this.countPhysicalSpinalRegions("lmn")
         this.UMNAndLMNInBrainstemByPhysicalOnly = this.containsTwoPhysicalFindingsInOneRegion("umn", "lmn", "Brainstem");
-        this.UMNAndLMNSignsAtSameLevel = this.isUMNAndLMNAtSameLevel();
+        this.mostRostralFinding = this.findMostRostralFinding();
     };
 
     calculateDiagnosis(){
@@ -24,31 +24,52 @@ class AirlieHouse extends ElEscoral {
         };
 
         if ((this.regionsWithUMN >= 2 && this.regionsWithLMNByPhysicalOnly >= 2) &&
-                ((this.UMNLevel < this.LMNLevel) || this.selections.tilt)) {
+                (this.mostRostralFinding === "umn" || (this.mostRostralFinding === "uncertain" && this.selections.tilt))) {
                 return "Clinically Probable ALS" 
         };
         
         if ((this.regionsWithUMN === 1 && this.regionsWithLMNByEMGOnly === 1 && this.UMNLevel === this.LMNLevel) ||
-                (this.regionsWithUMN >= 1 && this.regionsWithLMNByEMGOnly >= 2)) { 
+                ((this.regionsWithUMN >= 1 && this.regionsWithLMNByEMGOnly >= 2) &&
+                (this.mostRostralFinding === "umn" || (this.mostRostralFinding === "uncertain" && this.selections.tilt)))) { 
                 return "Clinically Probable ALS - Lab Supported" 
         };
 
         if (this.areBothFindingsPresentInOnePhysicalRegion() ||
-                (this.regionsWithUMN >= 2) ||  //VERIFY WITH RODNEY
-                (this.UMNLevel > this.LMNLevel && this.regionsWithUMN >= 1)) {
+                (this.regionsWithUMN >= 2) ||
+                (this.UMNLevel > this.LMNLevel && this.regionsWithUMN > 0)) {
                 return "Clinically Possible ALS"
             }
 
         return "--";
     };
 
-    isUMNAndLMNAtSameLevel(){
-        const fasicsHighestRegion = this.calculateHighestPhysicalLevel("fasics");
+    findMostRostralFinding(){
+        const highestUMNFinding = this.calculateHighestPhysicalLevel("umn");
+        const highestLMNFinding = this.calculateHighestPhysicalLevel("lmn");
 
-        if (((this.UMNLevel === this.LMNLevel) || (this.UMNLevel === fasicsHighestRegion)) && this.UMNLevel !== -1) { 
-            return true
-        }
-        return false
+        const highestFasicsFinding = this.calculateHighestPhysicalLevel("fasics");
+        const highestFibsFinding = this.calculateHighestPhysicalLevel("fibs");
+        const highestChronicDenervFinding = this.calculateHighestPhysicalLevel("chronicDenerv");
+
+        const highestEMGFinding = Math.min([highestFasicsFinding, highestFibsFinding, highestChronicDenervFinding]);
+
+        if (highestLMNFinding < highestUMNFinding){
+            return "lmn";
+        };
+
+        if (highestUMNFinding < Math.min([highestLMNFinding, highestEMGFinding])){
+            return "umn";
+        };
+
+        if (highestUMNFinding === 5) {
+            return "noUMN";
+        };
+
+        return "uncertain";
+    };
+
+    isTiltConfirmationNeeded(){
+        return this.mostRostralFinding === "uncertain";
     };
 
     calculateHighestPhysicalLevel(finding){
@@ -57,7 +78,7 @@ class AirlieHouse extends ElEscoral {
                 return i;
             };
         };
-        return -1;
+        return 5;
     };
 
     countPhsyicalRegions(finding){

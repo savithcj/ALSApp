@@ -28,8 +28,43 @@
   padding:10px;
   margin:10px;
   height:20px;
-  width: 100px;
-  text-align: right;
+  width: 150px;
+  text-align: left;
+  
+}
+
+.physical {
+  position: relative;
+  width:940px;
+  height:380px;
+  /* background-color: #61dafb; */
+}
+
+.selectors {
+  position: absolute;
+  top:75px;
+}
+
+.titles {
+  position: absolute;
+  width:950px;
+  height:70px;
+  /* background-color: #fb61ae; */
+}
+
+.region {
+  position: relative;
+  display:inline-block;
+  line-height:20px;
+  width: 150px;
+  text-align: center;
+  left:140px;
+  /* background-color: aqua; */
+}
+
+.toggle {
+  display:inline-block;
+  width:150px;
   /* background-color: #61dafb; */
 }
 

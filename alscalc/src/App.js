@@ -89,11 +89,11 @@ class App extends Component {
   };
 
   resultsHandler = () => {
-    const awaji = new AwajiShima(this.state);
+    const airlie = new AirlieHouse(this.state);
 
-    this.results.setDiagnosisStrategy(awaji);
+    this.results.setDiagnosisStrategy(airlie);
 
-    this.setState({isTiltNeeded:this.results.diagnosis.UMNAndLMNSignsAtSameLevel});
+    this.setState({isTiltNeeded:this.results.diagnosis.isTiltConfirmationNeeded()});
 
     this.showResults();
 
@@ -126,29 +126,75 @@ class App extends Component {
 
     if (this.state.showPhysical) {
        physicalComponent = (
-          <div>
+          <div className="physical">
+            <div className = "titles">
+
+              <span className="region">UMN</span>
+              <span className="region">LMN</span>
+              <span className="region">Fibrillations/PSW</span>
+              <span className="region">Fasciculations</span>
+              <span className="region">Neurogenic Potentials/Chronic Denervation</span>
+
+          </div>  
+
+          <div className="selectors">
             {this.state.regions.map((region)=>{
             return (
+
               <div key={region.id}>
                 <span className="regionName">
                   {region.id}
                 </span>
-            <Toggle
-              name={region.id + "umn"} 
-              onChange={(event) => this.changedHandler(event, region.id, 0)}
-              checked={region.umn}/>
 
-              <Toggle
-              name={region.id + "lmn"} 
-              onChange={(event) => this.changedHandler(event, region.id, 1)}
-              checked={region.lmn}/>
+                <span className = "toggle">
+                  <Toggle
+                  name={region.id + "umn"} 
+                  onChange={(event) => this.changedHandler(event, region.id, 0)}
+                  checked={region.umn}/>
+                </span>
 
-              <hr />
+                <span className = "toggle">
+                  <Toggle
+                  className = "toggle"
+                  name={region.id + "lmn"} 
+                  onChange={(event) => this.changedHandler(event, region.id, 1)}
+                  checked={region.lmn}/>
+                </span>
+
+                <span className = "toggle">
+                  <Toggle
+                  className = "toggle"
+                  name={region.id + "fibs"} 
+                  onChange={(event) => this.changedHandler(event, region.id, 2)}
+                  checked={region.fibs}/>
+                </span>
+
+                <span className = "toggle">
+                  <Toggle
+                  className = "toggle"
+                  name={region.id + "fasics"} 
+                  onChange={(event) => this.changedHandler(event, region.id, 3)}
+                  checked={region.fasics}/>
+                </span>
+
+                <span className = "toggle">
+                  <Toggle
+                  className = "toggle"
+                  name={region.id + "chronic"} 
+                  onChange={(event) => this.changedHandler(event, region.id, 4)}
+                  checked={region.chronicDenerv}/> 
+                </span>
+
+                <hr />
 
               </div>
               
               )
           })}
+
+            
+            </div>
+
           </div>
         )
     };
@@ -160,33 +206,6 @@ class App extends Component {
       labComponent = (
 
         <div>
-            {this.state.regions.map((region)=>{
-            return (
-              <div key={region.id}>
-                <span className="regionName">
-                  {region.id}
-                </span>
-                <Toggle
-                name={region.id + "fibs"} 
-                onChange={(event) => this.changedHandler(event, region.id, 2)}
-                checked={region.fibs}/>
-
-                <Toggle
-                name={region.id + "fasics"} 
-                onChange={(event) => this.changedHandler(event, region.id, 3)}
-                checked={region.fasics}/>
-
-                <Toggle
-                name={region.id + "chronic"} 
-                onChange={(event) => this.changedHandler(event, region.id, 4)}
-                checked={region.chronicDenerv}/>    
-
-                <hr />
-
-              </div>
-              
-              )
-          })}
             <span>
               Gene
               <Toggle
@@ -259,6 +278,8 @@ class App extends Component {
               </div>
 
             </div> */}
+
+          
 
           {physicalComponent}
           {labComponent}
