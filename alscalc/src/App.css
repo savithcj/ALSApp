@@ -23,6 +23,14 @@
   color: #61dafb;
 }
 
+.title {
+  position: absolute;
+  text-align: center;
+  top:0px;
+  width: 100%;
+  background-color: #61dafb;
+}
+
 .regionName {
   display:inline-block;
   padding:10px;
@@ -35,13 +43,15 @@
 
 .physical {
   position: relative;
-  width:940px;
-  height:380px;
-  /* background-color: #61dafb; */
+  width:1000px;
+  height:475px;
+  overflow: auto;
+  background-color: #61dafb;
 }
 
 .selectors {
   position: absolute;
+  width: 950px;
   top:75px;
 }
 
@@ -65,21 +75,21 @@
 .toggle {
   display:inline-block;
   width:150px;
-  /* background-color: #61dafb; */
+  background-color:violet ;
 }
 
 .gene {
-  position: relative;
+  position: absolute;
   width: 920px;
-  top:20px;
+  bottom:0px;
   padding:10px;
   margin:10px;  
-  background-color: #61dafb;
+  /* background-color: #61dafb; */
 }
 
 .geneToggle {
   display:inline-block;
-  background-color: bisque;
+  /* background-color: bisque; */
   left:50px;
 }
 

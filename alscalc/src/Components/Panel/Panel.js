@@ -5,12 +5,16 @@ import SwipeableViews from 'react-swipeable-views';
 
 const styles = {
   tabs: {
+
     background: '#fff',
+    bottom:'0px'
   },
   slide: {
-    padding: 15,
+    padding: 100,
     minHeight: 100,
     color: '#000',
+    display:"flex",
+    justifyContent: "center"
   },
 };
 
@@ -20,9 +24,11 @@ class Panel extends React.Component {
   };
 
   handleChange = (event, value) => {
+    
     this.setState({
       index: value,
     });
+    this.props.changed();
   };
 
   handleChangeIndex = index => {
@@ -36,14 +42,15 @@ class Panel extends React.Component {
 
     return (
       <div>
-        <Tabs value={index} fullWidth onChange={this.handleChange} style={styles.tabs}>
-          <Tab label="Findings" />
-          <Tab label="Results" />
-        </Tabs>
+        
         <SwipeableViews index={index} onChangeIndex={this.handleChangeIndex}>
           <div style={Object.assign({}, styles.slide, styles.slide1)}>{this.props.findings}</div>
           <div style={Object.assign({}, styles.slide, styles.slide3)}>{this.props.results}</div>
         </SwipeableViews>
+        <Tabs value={index} variant="fullWidth" onChange={this.handleChange} style={styles.tabs}>
+          <Tab label="Findings" />
+          <Tab label="Results" />
+        </Tabs>
       </div>
     );
   }

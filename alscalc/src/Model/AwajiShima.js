@@ -4,8 +4,6 @@ class AwajiShima extends AirlieHouse {
 
     calculateDiagnosis(){
 
-        console.log(this.UMNAndLMNInBrainstem)
-
         if (this.regionsWithUMN >= 1 && this.regionsWithLMN >= 1 && this.selections.gene) { 
             return "Clinically Definite Familial ALS\nThis was determined becauase UMN > LMN";
         };
