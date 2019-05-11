@@ -23,12 +23,17 @@
   color: #61dafb;
 }
 
+body {
+  background-color: #f5f2f0;
+}
+
 .title {
   position: absolute;
   text-align: center;
   top:0px;
   width: 100%;
-  background-color: #61dafb;
+  background-color: #363636;
+  color: #fff;
 }
 
 .regionName {
@@ -38,15 +43,15 @@
   height:20px;
   width: 150px;
   text-align: left;
-  
 }
 
 .physical {
   position: relative;
-  width:1000px;
-  height:475px;
+  width:950px;
+  height:500px;
   overflow: auto;
-  background-color: #61dafb;
+  /* background-color: #61dafb; */
+  top:40px
 }
 
 .selectors {
@@ -75,13 +80,13 @@
 .toggle {
   display:inline-block;
   width:150px;
-  background-color:violet ;
+  /* background-color:violet ; */
 }
 
 .gene {
   position: absolute;
-  width: 920px;
-  bottom:0px;
+  width: 850px;
+  bottom:30px;
   padding:10px;
   margin:10px;  
   /* background-color: #61dafb; */
@@ -89,8 +94,14 @@
 
 .geneToggle {
   display:inline-block;
-  /* background-color: bisque; */
   left:50px;
+  /* background-color: bisque; */
+}
+
+.reset {
+  position: absolute;
+  bottom: 0px;
+  right:10%;
 }
 
 @keyframes App-logo-spin {

@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import './App.css';
 import { Toggle } from "react-toggle-component"
 import Results from './Model/Results'
-import ElEscoral from './Model/ElEscorial'
+import ElEscorial from './Model/ElEscorial'
 import AirlieHouse from './Model/AirlieHouse'
 import AwajiShima from './Model/AwajiShima'
 import Panel from './Components/Panel/Panel'
+import Button from '@material-ui/core/Button';
 
 class App extends Component {
 
@@ -72,17 +73,19 @@ class App extends Component {
   };
 
   geneButtonHandler = (event) => {
-    console.log("geneButtonHandler was called")
     this.setState({ gene: event.target.checked })
-    console.log(this.state.gene)
   };
 
   tiltButtonHandler = (event) => {
     this.setState({ tilt: event.target.checked })
   };
 
+  resetButtonHandler = () => {
+    window.location.reload()
+  };
+
   showResults() {
-    const elE = new ElEscoral(this.state);
+    const elE = new ElEscorial(this.state);
     const airlie = new AirlieHouse(this.state);
     const awaji = new AwajiShima(this.state);
 
@@ -98,6 +101,7 @@ class App extends Component {
 
     this.awajiDiag = this.results.result;
 
+    this.forceUpdate();
   };
 
   render() {
@@ -175,7 +179,6 @@ class App extends Component {
           )
           }
 
-
         </div>
 
         <div className="gene">
@@ -188,10 +191,19 @@ class App extends Component {
               checked={this.state.gene}
             />
           </span>
+          
+
         </div>
 
+        <div className="reset">
+          <Button className = "resetButton" variant="outlined" onClick={() => this.resetButtonHandler()}>
+            Reset All
+          </Button>
+          
+        </div>
 
       </div>
+
 
     );
 
@@ -199,6 +211,14 @@ class App extends Component {
     let results = (
 
       <div>
+        <div>
+          Tilt
+            <Toggle
+            name="tilt"
+            onChange={(event) => this.tiltButtonHandler(event)}
+            checked={this.state.tilt}
+          />
+        </div>
         ElEscoral: {this.elEDiag} <br />
         AirlieHouse: {this.airlieDiag} <br />
         AwajiShima: {this.awajiDiag}
@@ -212,21 +232,11 @@ class App extends Component {
         </div>
 
 
-
-        {this.state.isTiltNeeded ? <span>
-          Tilt
-              <Toggle
-            name="tilt"
-            onChange={(event) => this.tiltButtonHandler(event)}
-            checked={this.state.tilt}
-          />
-        </span> : null}
-
-
         <Panel
           findings={findings}
           results={results}
           changed={this.showResults} />
+
 
       </div>
     );
