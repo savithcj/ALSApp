@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import './App.css';
 import {Toggle} from "react-toggle-component"
 import Results from './Model/Results'
-import ElEscoral from './Model/ElEscoral'
+import ElEscoral from './Model/ElEscorial'
 import AirlieHouse from './Model/AirlieHouse'
 import AwajiShima from './Model/AwajiShima'
+import Panel from './Components/Panel/Panel'
 
 class App extends Component {
 
@@ -28,7 +29,6 @@ class App extends Component {
       tilt:false,
 
       showPhysical: false,
-      showLab: false,
       showDiagnosisCriteria: false,
       isTiltNeeded: false,
       showResults:false,
@@ -83,10 +83,6 @@ class App extends Component {
     this.setState({showPhysical: !doesShow});
   };
 
-  toggleLabHandler = () => {
-    const doesShow = this.state.showLab
-    this.setState({showLab: !doesShow});
-  };
 
   resultsHandler = () => {
     const airlie = new AirlieHouse(this.state);
@@ -121,6 +117,25 @@ class App extends Component {
   };
 
   render(){
+
+    let geneMessage = `A familial history of ALS is present, and a pathogenic 
+      gene mutation in the patient has been identified:`
+
+
+      let labComponent = (
+
+        <div className="gene">
+            <span>
+              {geneMessage}
+              <Toggle
+                className="geneToggle"
+                name = "gene"
+                onChange = {(event) => this.geneButtonHandler(event)}
+                checked = {this.state.gene}
+              />
+            </span>
+        </div>
+      );
 
     let physicalComponent = null;
 
@@ -192,32 +207,16 @@ class App extends Component {
               )
           })}
 
-            
+              
             </div>
+            {labComponent}
+            
 
           </div>
         )
     };
 
-    let labComponent = null;
-
-    if (this.state.showLab){
-
-      labComponent = (
-
-        <div>
-            <span>
-              Gene
-              <Toggle
-                name = "gene"
-                onChange = {(event) => this.geneButtonHandler(event)}
-                checked = {this.state.gene}
-              />
-            </span>
-          </div>
-      )
-
-    };
+      
 
     let results = null;
 
@@ -261,29 +260,13 @@ class App extends Component {
               />
             </span> : null}
 
-            {/* <div>
-              Physical <br/>
-              <span>
-                Region
-              </span>
+          {/* {physicalComponent} */}
+          {/* {labComponent} */}
+          {/* {results} */}
 
-              <span>
-                Upper 
-                Motor 
-                Finding
-              </span>
-
-              <div>
-                Lower Motor Finding
-              </div>
-
-            </div> */}
-
-          
-
-          {physicalComponent}
-          {labComponent}
-          {results}
+          <Panel 
+            findings = {physicalComponent}
+            results = {results}/>
 
       </div>
     );

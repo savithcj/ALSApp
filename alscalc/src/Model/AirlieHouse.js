@@ -1,11 +1,11 @@
-import ElEscoral from "./ElEscoral";
+import ElEscorial from "./ElEscorial";
 
-class AirlieHouse extends ElEscoral {
+class AirlieHouse extends ElEscorial {
 
     constructor(selections){
         super(selections);
 
-        this.regionsWithLMNByPhysicalOnly = this.countPhsyicalRegions("lmn");
+        this.regionsWithLMNByPhysicalOnly = this.countPhysicalRegions("lmn");
         this.regionsWithLMNByEMGOnly = this.countLMNRegionsByEMG();
         this.spinalRegionsWithLMNByPhysicalOnly = this.countPhysicalSpinalRegions("lmn")
         this.UMNAndLMNInBrainstemByPhysicalOnly = this.containsTwoPhysicalFindingsInOneRegion("umn", "lmn", "Brainstem");
@@ -81,7 +81,7 @@ class AirlieHouse extends ElEscoral {
         return 5;
     };
 
-    countPhsyicalRegions(finding){
+    countPhysicalRegions(finding){
         let count =0;
         for(let i=0; i<this.selections.regions.length; i++){
            count += this.isPhysicalFindingPresent(finding, this.selections.regions[i].id)
@@ -92,7 +92,7 @@ class AirlieHouse extends ElEscoral {
 
     countPhysicalSpinalRegions(finding){
         return (
-            this.countPhsyicalRegions(finding) - this.selections.regions[0][finding]
+            this.countPhysicalRegions(finding) - this.selections.regions[0][finding]
         );
     };
 

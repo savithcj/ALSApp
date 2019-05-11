@@ -68,6 +68,21 @@
   /* background-color: #61dafb; */
 }
 
+.gene {
+  position: relative;
+  width: 920px;
+  top:20px;
+  padding:10px;
+  margin:10px;  
+  background-color: #61dafb;
+}
+
+.geneToggle {
+  display:inline-block;
+  background-color: bisque;
+  left:50px;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

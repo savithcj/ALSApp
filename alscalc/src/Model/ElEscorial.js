@@ -1,4 +1,4 @@
-class ElEscoral {
+class ElEscorial {
 
     constructor(selections){
 
@@ -99,4 +99,4 @@ class ElEscoral {
     };
 };
 
-export default ElEscoral;
+export default ElEscorial;
