@@ -5,13 +5,10 @@ class Results {
         this.result = null;
     
     }
-
     setDiagnosisStrategy(diagnosis){
         this.diagnosis = diagnosis;
         this.result = this.diagnosis.calculateDiagnosis();
     };
-
-
 };
 
 export default Results;
