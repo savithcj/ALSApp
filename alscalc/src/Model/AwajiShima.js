@@ -72,7 +72,7 @@ class AwajiShima extends AirlieHouse {
             
         return ({diagnosis: "--",
                 explanation: `A valid diagnosis is not available for the selected findings based
-                on the Awaji-shima criteria.`});
+                on the Awaji-Shima criteria.`});
     };
 
     isLMNFindingPresent(region){
