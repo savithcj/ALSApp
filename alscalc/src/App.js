@@ -6,6 +6,7 @@ import ElEscorial from './Model/ElEscorial'
 import AirlieHouse from './Model/AirlieHouse'
 import AwajiShima from './Model/AwajiShima'
 import Panel from './Components/Panel/Panel'
+import DiagnosisResults from './Components/DiagnosisResults/DiagnosisResults'
 import Button from '@material-ui/core/Button';
 
 class App extends Component {
@@ -115,7 +116,7 @@ class App extends Component {
     };
 
     return (`Based on the selected values, the program determined 
-            that the most rostral findings were ` + this.mostRostralFinding);
+            that the most rostral findings were ` + this.mostRostralFinding + ".");
   };
 
   showResults() {
@@ -260,15 +261,31 @@ class App extends Component {
 
     if (this.state.revealResults) {
       this.revealResults();
+
       diagnosisResult = (
         <div className="diagResults">
-          {this.getmostRostralFinding()} <br />
-          ElEscorial: {this.elEDiag.diagnosis} <br />
-          {this.elEDiag.explanation} <br />
-          AirlieHouse: {this.airlieDiag.diagnosis} <br />
-          {this.airlieDiag.explanation} <br />
-          AwajiShima: {this.awajiDiag.diagnosis} <br />
-          {this.awajiDiag.explanation} <br />
+
+          <div className="rostralFinding">
+            <p>
+              {this.getmostRostralFinding()}
+            </p>
+          </div>
+
+          <DiagnosisResults
+            title="El Escorial (1994)"
+            diagnosis={this.elEDiag.diagnosis}
+            explanation={this.elEDiag.explanation} />
+
+          <DiagnosisResults
+            title="El Escorial Revised (Airlie House) (2000)"
+            diagnosis={this.airlieDiag.diagnosis}
+            explanation={this.airlieDiag.explanation} />
+
+          <DiagnosisResults
+            title="Awaji-Shima (2008)"
+            diagnosis={this.awajiDiag.diagnosis}
+            explanation={this.awajiDiag.explanation} />
+
         </div>
       )
     };
@@ -294,11 +311,7 @@ class App extends Component {
             </div>
           </div>
 
-          <div>
-            {diagnosisResult}
-          </div>
-
-
+          {diagnosisResult}
 
         </div>
       )
@@ -307,9 +320,8 @@ class App extends Component {
       results = (
 
         <div className="results">
-          <div className="tilt">
-            {diagnosisResult}
-          </div>
+
+          {diagnosisResult}
 
         </div>
       )

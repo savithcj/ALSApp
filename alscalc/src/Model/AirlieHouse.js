@@ -27,14 +27,14 @@ class AirlieHouse extends ElEscorial {
                     explanation: `This scenario is classified as Clinically Definite ALS as 
                     there are upper motor neuron and lower motor neuron findings in the
                     brainstem as well as upper motor neuron and lower motor neuron findings
-                    in two or more spinal regions`})
+                    in two or more spinal regions.`})
         };
 
         if((this.spinalRegionsWithUMN === 3 && this.spinalRegionsWithLMNByPhysicalOnly === 3)){
             return ({diagnosis: "Clinically Definite ALS",
                     explanation: `This scenario is classified as Clinically Definite ALS as
                     there are upper motor neuron and lower motor neuron findings in all 
-                    three spinal regions`})
+                    three spinal regions.`})
         };
 
         if ((this.regionsWithUMN >= 2 && this.regionsWithLMNByPhysicalOnly >= 2) &&
@@ -62,7 +62,7 @@ class AirlieHouse extends ElEscorial {
             return ({diagnosis: "Clinically Possible ALS",
                     explanation: `This scenario is classified as Clinically Possible 
                     ALS as there are upper motor neuron and lower motor neuron signs 
-                    in one region`})
+                    in one region.`})
         };
 
         if((this.regionsWithUMN >= 2)){
