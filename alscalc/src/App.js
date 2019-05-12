@@ -14,9 +14,9 @@ class App extends Component {
 
     super(props);
     this.results = new Results();
-    this.elEDiag = "";
-    this.airlieDiag = "";
-    this.awajiDiag = "";
+    this.elEDiag = null;
+    this.airlieDiag = null;
+    this.awajiDiag = null;
     this.mostRostralFinding = "";
 
     this.showResults = this.showResults.bind(this)
@@ -263,9 +263,12 @@ class App extends Component {
       diagnosisResult = (
         <div className="diagResults">
           {this.getmostRostralFinding()} <br/>
-          ElEscorial: {this.elEDiag} <br/>
-          AirlieHouse: {this.airlieDiag} <br/>
-          AwajiShima: {this.awajiDiag} <br/>
+          ElEscorial: {this.elEDiag.diagnosis} <br/>
+          {this.elEDiag.explanation} <br/>
+          AirlieHouse: {this.airlieDiag.diagnosis} <br/>
+          {this.airlieDiag.explanation} <br/>
+          AwajiShima: {this.awajiDiag.diagnosis} <br/>
+          {this.awajiDiag.explanation} <br/>
         </div>
       )
     };

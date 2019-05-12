@@ -15,32 +15,74 @@ class AirlieHouse extends ElEscorial {
     calculateDiagnosis(){
 
         if (this.regionsWithUMN >= 1 && this.regionsWithLMN >= 1 && this.selections.gene) {
-            return "Clinically Definite Familial ALS - Lab Supported"
+            return ({diagnosis: "Clinically Definite Familial ALS - Lab Supported",
+                    explanation: `This scenario is classified as Clinically Definite Familial
+                    ALS -Laboratory Supported as there are upper and lower motor neuron signs
+                    in at least a single region as well as a family history of a defined 
+                    pathogenic mutation.`})
         };
 
-        if ((this.UMNAndLMNInBrainstemByPhysicalOnly && this.spinalRegionsWithUMN >= 2 && this.spinalRegionsWithLMNByPhysicalOnly >= 2) ||
-                (this.spinalRegionsWithUMN === 3 && this.spinalRegionsWithLMNByPhysicalOnly === 3)) {
-                return "Clinically Definite ALS"
+        if ((this.UMNAndLMNInBrainstemByPhysicalOnly && this.spinalRegionsWithUMN >= 2 && this.spinalRegionsWithLMNByPhysicalOnly >= 2)){
+            return ({diagnosis: "Clinically Definite ALS",
+                    explanation: `This scenario is classified as Clinically Definite ALS as 
+                    there are upper motor neuron and lower motor neuron findings in the
+                    brainstem as well as upper motor neuron and lower motor neuron findings
+                    in two or more spinal regions`})
+        };
+
+        if((this.spinalRegionsWithUMN === 3 && this.spinalRegionsWithLMNByPhysicalOnly === 3)){
+            return ({diagnosis: "Clinically Definite ALS",
+                    explanation: `This scenario is classified as Clinically Definite ALS as
+                    there are upper motor neuron and lower motor neuron findings in all 
+                    three spinal regions`})
         };
 
         if ((this.regionsWithUMN >= 2 && this.regionsWithLMNByPhysicalOnly >= 2) &&
                 (this.mostRostralFinding === "umn" || (this.mostRostralFinding === "uncertain" && this.selections.tilt))) {
-                return "Clinically Probable ALS" 
+                return ({diagnosis: "Clinically Probable ALS",
+                        explanation: `This scenario is classified as Clinically Probable ALS as
+                        there are upper motor neuron and lower motor neuron findings in two or 
+                        more regions and some upper motor neuron signs are rostral to lower 
+                        motor neuron signs.`}) 
         };
         
         if ((this.regionsWithUMN === 1 && this.regionsWithLMNByEMGOnly === 1 && this.UMNLevel === this.LMNLevel) ||
                 ((this.regionsWithUMN >= 1 && this.regionsWithLMNByEMGOnly >= 2) &&
                 (this.mostRostralFinding === "umn" || (this.mostRostralFinding === "uncertain" && this.selections.tilt)))) { 
-                return "Clinically Probable ALS - Lab Supported" 
+                return ({diagnosis: "Clinically Probable ALS - Lab Supported",
+                        explanation: `This scenario is classified as Clinically Probable 
+                        ALS - Laboratory Supported as there are clinical signs of upper 
+                        motor neuron dysfunction in at least one region and lower motor 
+                        neuron signs defined by EMG criteria are present in at least two 
+                        regions. In addition, upper motor neuron signs are rostral to 
+                        lower motor neuron signs.`}) 
         };
 
-        if (this.areBothFindingsPresentInOnePhysicalRegion() ||
-                (this.regionsWithUMN >= 2) ||
-                (this.UMNLevel > this.LMNLevel && this.regionsWithUMN > 0)) {
-                return "Clinically Possible ALS"
-            }
+        if(this.areBothFindingsPresentInOnePhysicalRegion()){
+            return ({diagnosis: "Clinically Possible ALS",
+                    explanation: `This scenario is classified as Clinically Possible 
+                    ALS as there are upper motor neuron and lower motor neuron signs 
+                    in one region`})
+        };
 
-        return "--";
+        if((this.regionsWithUMN >= 2)){
+            return ({diagnosis: "Clinically Possible ALS",
+                    explanation: `This scenario is classified as Clinically Possible 
+                    ALS as there are upper motor neuron signs “alone” in two or more 
+                    regions. We interpret “alone” as meaning that these findings 
+                    “on their own” would satisfy the criteria for possible ALS.`})
+        };
+
+        if((this.UMNLevel > this.LMNLevel && this.regionsWithUMN > 0)){
+            return ({diagnosis: "Clinically Possible ALS",
+                    explanation: `This scenario is classified as Clinically Possible 
+                    ALS as lower motor neuron signs are rostral to upper motor 
+                    neuron signs.`})
+        };
+
+        return ({diagnosis: "--",
+                explanation: `A valid diagnosis is not available for the selected findings based
+                on the El Escorial revised (Airlie House) criteria.`});
     };
 
     findMostRostralFinding(){

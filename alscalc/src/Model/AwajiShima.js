@@ -5,26 +5,74 @@ class AwajiShima extends AirlieHouse {
     calculateDiagnosis(){
 
         if (this.regionsWithUMN >= 1 && this.regionsWithLMN >= 1 && this.selections.gene) { 
-            return "Clinically Definite Familial ALS\nThis was determined becauase UMN > LMN";
+            return ({diagnosis: "Clinically Definite Familial ALS - Lab Supported",
+                    explanation: `This scenario is classified as Clinically Definite Familial 
+                    ALS -Laboratory Supported as there are upper and lower motor neuron signs 
+                    in at least a single region as well as a family history of a defined 
+                    pathogenic mutation. NOTE: Lower motor neuron (LMN) findings can include LMN 
+                    clinical findings, (fibrillations/positive sharp waves AND chronic 
+                    denervation), OR (fasciculations AND chronic denervation).`})
         };
 
-        if ((this.UMNAndLMNInBrainstem && this.spinalRegionsWithUMN >= 2 && this.spinalRegionsWithLMN >= 2) ||
-                (this.spinalRegionsWithUMN === 3 && this.spinalRegionsWithLMN === 3)) { 
-            return "Clinically Definite ALS"; 
+        if ((this.UMNAndLMNInBrainstem && this.spinalRegionsWithUMN >= 2 && this.spinalRegionsWithLMN >= 2)){
+            return ({diagnosis: "Clinically Definite ALS",
+                    explanation: `This scenario is classified as Clinically Definite ALS 
+                    as there are upper motor neuron and lower motor neuron findings in 
+                    the brainstem as well as upper motor neuron and lower motor neuron 
+                    findings in two or more spinal regions. NOTE: Lower motor neuron (LMN) 
+                    findings can include LMN clinical findings, (fibrillations/positive 
+                    sharp waves AND chronic denervation), OR (fasciculations AND chronic denervation).`})
+        };
+
+        if((this.spinalRegionsWithUMN === 3 && this.spinalRegionsWithLMN >= 3)){
+            return ({diagnosis: "Clinically Definite ALS",
+                    explanation: `This scenario is classified as Clinically Definite ALS as there are 
+                    upper motor neuron and lower motor neuron findings in all three spinal regions. 
+                    NOTE: Lower motor neuron (LMN) findings can include LMN clinical findings, 
+                    (fibrillations/positive sharp waves AND chronic denervation), OR (fasciculations 
+                    AND chronic denervation).`})
         };
 
         if ((this.regionsWithUMN >= 2 && this.regionsWithLMN >= 2) &&
             (this.mostRostralFinding === "umn" || (this.mostRostralFinding === "uncertain" && this.selections.tilt))) {
-            return "Clinically Probable ALS";
+                return ({diagnosis: "Clinically Probable ALS",
+                explanation: `This scenario is classified as Clinically Probable ALS as there 
+                are upper motor neuron and lower motor neuron findings in two or more regions 
+                and some upper motor neuron signs are rostral to lower motor neuron signs. 
+                NOTE: Lower motor neuron (LMN) findings can include LMN clinical findings, 
+                (fibrillations/positive sharp waves AND chronic denervation), OR 
+                (fasciculations AND chronic denervation).`})
         };
 
-        if (this.areBothFindingsPresentInOneRegion() ||
-                (this.regionsWithUMN >= 2) || 
-                (this.UMNLevel > this.LMNLevel && this.regionsWithUMN > 0)) {
-            return "Clinically Possible ALS";
+        if(this.areBothFindingsPresentInOneRegion()){
+            return ({diagnosis: "Clinically Possible ALS",
+                explanation: `This scenario is classified as Clinically Possible ALS as 
+                there are upper motor neuron and lower motor neuron signs together in one region`})
+        };
+
+        if((this.regionsWithUMN >= 2)){
+            return ({diagnosis: "Clinically Possible ALS",
+                explanation: `This scenario is classified as Clinically Possible ALS as there 
+                are upper motor neuron signs “alone” in two or more regions. We interpret 
+                “alone” as meaning that these findings “on their own” would satisfy the 
+                criteria for possible ALS.`})
+        };
+
+        if((this.UMNLevel > this.LMNLevel && this.regionsWithUMN > 0)){
+            return ({diagnosis: "Clinically Possible ALS",
+                explanation: `This scenario is classified as Clinically Possible ALS 
+                as lower motor neuron signs are rostral to upper motor neuron signs and
+                the diagnosis of Clinically Probable ALS – Laboratory supported cannot 
+                be proven by evidence on clinical grounds in conjunction with 
+                electrodiagnostic, neurophysiologic, neuroimaging or clinical laboratory 
+                studies. NOTE: Lower motor neuron (LMN) findings can include LMN clinical findings, 
+                (fibrillations/positive sharp waves AND chronic denervation), OR 
+                (fasciculations AND chronic denervation).`})
         };
             
-        return "--";
+        return ({diagnosis: "--",
+                explanation: `A valid diagnosis is not available for the selected findings based
+                on the Awaji-shima criteria.`});
     };
 
     isLMNFindingPresent(region){

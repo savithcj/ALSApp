@@ -18,27 +18,62 @@ class ElEscorial {
 
     calculateDiagnosis(){
 
-        if ((this.UMNAndLMNInBrainstem && this.spinalRegionsWithUMN >= 2 && this.spinalRegionsWithLMN >= 2) ||
-                (this.spinalRegionsWithUMN === 3 && this.spinalRegionsWithLMN === 3)) {
-                return "Definite ALS"
-            };
+        if ((this.UMNAndLMNInBrainstem && this.spinalRegionsWithUMN >= 2 && this.spinalRegionsWithLMN >= 2)) {
+            return ({diagnosis: "Definite ALS",
+                    explanation: `This scenario is classified as definite ALS as there are upper motor 
+                    neuron and lower motor neuron findings in the brainstem in addition to upper motor 
+                    neuron and lower motor neuron signs in two or more spinal regions.`})
+        };
+
+        if((this.spinalRegionsWithUMN === 3 && this.spinalRegionsWithLMN === 3)){
+            return ({diagnosis: "Definite ALS",
+                    explanation: `This scenario is classified as Definite ALS as there are upper motor 
+                    neuron and lower motor neuron findings in all three spinal regions.`})
+        };
+
+        if((this.regionsWithUMN >= 2 && this.regionsWithLMN >= 2) && (this.UMNLevel < this.LMNLevel)){
+            return ({diagnosis: "Probable ALS",
+                    explanation: `This scenario is classified as Probable ALS as there are upper motor 
+                    neuron and lower motor neuron findings in two or more regions and some upper motor 
+                    neuron signs are rostral to lower motor neuron signs.`})
+        };
 
         if ((this.regionsWithUMN >= 2 && this.regionsWithLMN >= 2) &&
                 ((this.UMNLevel < this.LMNLevel) || this.selections.tilt)) {
-                    return "Probable ALS" 
+                    return ({diagnosis: "Probable ALS",
+                    explanation: `This scenario is classified as Probable ALS as there are upper motor 
+                    neuron and lower motor neuron findings in two or more regions and some upper motor 
+                    neuron signs are rostral to lower motor neuron signs.`}) 
             };
 
-        if (this.areBothFindingsPresentInOneRegion() ||
-                (this.regionsWithUMN >= 2) ||
-                (this.UMNLevel > this.LMNLevel && this.regionsWithUMN > 0)) {
-                return "Possible ALS"
-            };
+        if(this.areBothFindingsPresentInOneRegion()){
+            return ({diagnosis: "Possible ALS",
+                    explanation: `This scenario is classified as Possible ALS as there are upper motor 
+                    neuron and lower motor neuron signs “together” in one region.`})
+        };
+
+        if(this.regionsWithUMN >= 2){
+            return ({diagnosis: "Possible ALS",
+                    explanation: `This scenario is classified as Possible ALS as there are upper motor
+                     neuron signs “alone” in two or more regions. We interpret “alone” as meaning that
+                     these findings “on their own” would satisfy the criteria for possible ALS.`})
+        };
+
+        if((this.UMNLevel > this.LMNLevel && this.regionsWithUMN > 0)){
+            return ({diagnosis: "Possible ALS",
+                    explanation: `This scenario is classified as Possible ALS as lower motor neuron 
+                    signs are rostral to upper motor neuron signs.`})
+        };
 
         if (this.regionsWithLMN >= 2) {
-            return "Suspected ALS"
-            };
+            return ({diagnosis: "Suspected ALS",
+                    explanation: `This scenario is classified as Suspected ALS as there are lower 
+                    motor neuron signs in two or more regions.`})
+        };
 
-        return "--";
+        return ({diagnosis: "--",
+                    explanation: `A valid diagnosis is not available for the selected findings based
+                    on the El Escorial criteria.`});
     };
 
     calcHighestLevel(finding){
