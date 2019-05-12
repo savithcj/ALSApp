@@ -54,15 +54,15 @@ class AirlieHouse extends ElEscorial {
         let highestEMGFinding = Math.min(...[highestFasicsFinding, highestFibsFinding, highestChronicDenervFinding]);
 
         if (highestLMNFinding < highestUMNFinding){
-            return "lmn";
+            return "LMN";
         };
 
         if (highestUMNFinding < Math.min(...[highestLMNFinding, highestEMGFinding])){
-            return "umn";
+            return "UMN";
         };
 
         if (highestUMNFinding === 5) {
-            return "noUMN";
+            return "not selected";
         };
 
         return "uncertain";

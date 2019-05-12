@@ -17,8 +17,11 @@ class App extends Component {
     this.elEDiag = "";
     this.airlieDiag = "";
     this.awajiDiag = "";
+    this.mostRostralFinding = "";
 
     this.showResults = this.showResults.bind(this)
+    this.yesButtonHandler = this.yesButtonHandler.bind(this)
+    this.noButtonHandler = this.noButtonHandler.bind(this)
   };
 
   state = {
@@ -32,7 +35,8 @@ class App extends Component {
     gene: false,
     tilt: false,
 
-    isTiltNeeded: false,
+    isTiltNeeded: null,
+    revealResults: true,
 
   };
 
@@ -61,6 +65,9 @@ class App extends Component {
         break;
       case 4:
         region.chronicDenerv = event.target.checked;
+        break;
+      default:
+        break;
     };
 
     const regions = [...this.state.regions];
@@ -80,8 +87,35 @@ class App extends Component {
     this.setState({ tilt: event.target.checked })
   };
 
+  yesButtonHandler = () => {
+    this.setState({ tilt: true })
+    this.setState({revealResults: true})
+  };
+
+  noButtonHandler = () => {
+    this.setState({ tilt: false })
+    this.setState({revealResults: true})
+  };
+
   resetButtonHandler = () => {
     window.location.reload()
+  };
+
+  getmostRostralFinding = () => {
+
+    if (this.state.isTiltNeeded) {
+      switch (this.state.tilt) {
+        case true:
+          return `UMN findings were chosen to be rostral to LMN Findings.`;
+        case false:
+          return `LMN findings were chosen to be rostral to UMN Findings.`;
+        default:
+          return null;
+      };
+    };
+
+    return (`Based on the selected values, the program has determined 
+            that the most rostral findings are ` + this.mostRostralFinding);
   };
 
   showResults() {
@@ -89,7 +123,36 @@ class App extends Component {
 
     this.results.setDiagnosisStrategy(airlie);
 
-    this.setState({isTiltNeeded: this.results.diagnosis.isTiltConfirmationNeeded()})
+    this.mostRostralFinding = this.results.diagnosis.mostRostralFinding
+
+    this.setState({ isTiltNeeded: this.results.diagnosis.isTiltConfirmationNeeded() })
+
+    if (this.results.diagnosis.isTiltConfirmationNeeded()) {
+      this.setState({revealResults: false})
+    } else {
+      this.setState({revealResults: true})
+    }
+
+  };
+
+  revealResults() {
+
+    const elE = new ElEscorial(this.state);
+    const airlie = new AirlieHouse(this.state);
+    const awaji = new AwajiShima(this.state);
+
+    this.results.setDiagnosisStrategy(elE);
+
+    this.elEDiag = this.results.result;
+
+    this.results.setDiagnosisStrategy(airlie);
+
+    this.airlieDiag = this.results.result;
+
+    this.results.setDiagnosisStrategy(awaji);
+
+    this.awajiDiag = this.results.result;
+
   };
 
   render() {
@@ -179,41 +242,73 @@ class App extends Component {
               checked={this.state.gene}
             />
           </span>
-          
+
 
         </div>
 
         <div className="reset">
-          <Button className = "resetButton" variant="outlined" onClick={() => this.resetButtonHandler()}>
+          <Button className="resetButton" variant="outlined" onClick={() => this.resetButtonHandler()}>
             Reset All
           </Button>
-          
+
         </div>
 
       </div>
     );
 
+    let diagnosisResult = null;
+
+    if (this.state.revealResults){
+      this.revealResults();
+      diagnosisResult = (
+        <div className="diagResults">
+          {this.getmostRostralFinding()} <br/>
+          ElEscorial: {this.elEDiag}
+        </div>
+      )
+    };
+
     let results = null;
 
-    if(!this.state.isTiltNeeded){
+    if (this.state.isTiltNeeded) {
 
-        results = (
+      results = (
+
+        <div className = "results">
+          <div className="tilt">
+            On review, does the patient have any upper motor neuron findings rostral to (i.e above)
+            lower motor neuron findings?
+                <div className="tiltButtons">
+              <Button variant="outlined" onClick={() => this.yesButtonHandler()}>
+                Yes
+                  </Button>
+
+              <Button variant="outlined" onClick={() => this.noButtonHandler()}>
+                No
+                  </Button>
+            </div>
+          </div>
 
           <div>
-            <div className="tilt">
-              On review, does the patient have any upper motor neuron findings rostral to (i.e above)
-              lower motor neuron findings?
-                <Toggle
-                name="tilt"
-                onChange={(event) => this.tiltButtonHandler(event)}
-                checked={this.state.tilt}
-              />
-            </div>
-            ElEscorial: {this.elEDiag} <br />
-            AirlieHouse: {this.airlieDiag} <br />
-            AwajiShima: {this.awajiDiag}
+            {diagnosisResult}
           </div>
-        )
+
+          
+
+        </div>
+      )
+    } else {
+
+      results = (
+
+        <div className = "results">
+          <div className="tilt">
+            {diagnosisResult}  
+          </div>
+          
+        </div>
+      )
+
     };
 
     return (
