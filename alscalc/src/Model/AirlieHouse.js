@@ -14,6 +14,11 @@ class AirlieHouse extends ElEscorial {
 
     calculateDiagnosis(){
 
+        console.log("UMN regions: "+this.regionsWithUMN)
+        console.log("LMN regions: "+this.regionsWithLMN)
+        console.log("EMG LMN regions: "+this.regionsWithLMNByEMGOnly)
+        console.log("Most rostal: "+this.mostRostralFinding)
+
         if (this.regionsWithUMN >= 1 && this.regionsWithLMN >= 1 && this.selections.gene) {
             return ({diagnosis: "Clinically Definite Familial ALS - Lab Supported",
                     explanation: `This scenario is classified as Clinically Definite Familial
@@ -38,7 +43,7 @@ class AirlieHouse extends ElEscorial {
         };
 
         if ((this.regionsWithUMN >= 2 && this.regionsWithLMNByPhysicalOnly >= 2) &&
-                (this.mostRostralFinding === "umn" || (this.mostRostralFinding === "uncertain" && this.selections.tilt))) {
+                (this.mostRostralFinding === "UMN" || (this.mostRostralFinding === "uncertain" && this.selections.tilt))) {
                 return ({diagnosis: "Clinically Probable ALS",
                         explanation: `This scenario is classified as Clinically Probable ALS as
                         there are upper motor neuron and lower motor neuron findings in two or 
@@ -48,7 +53,7 @@ class AirlieHouse extends ElEscorial {
         
         if ((this.regionsWithUMN === 1 && this.regionsWithLMNByEMGOnly === 1 && this.UMNLevel === this.LMNLevel) ||
                 ((this.regionsWithUMN >= 1 && this.regionsWithLMNByEMGOnly >= 2) &&
-                (this.mostRostralFinding === "umn" || (this.mostRostralFinding === "uncertain" && this.selections.tilt)))) { 
+                (this.mostRostralFinding === "UMN" || (this.mostRostralFinding === "uncertain" && this.selections.tilt)))) { 
                 return ({diagnosis: "Clinically Probable ALS - Lab Supported",
                         explanation: `This scenario is classified as Clinically Probable 
                         ALS - Laboratory Supported as there are clinical signs of upper 

@@ -27,7 +27,7 @@ class AwajiShima extends AirlieHouse {
         };
 
         if ((this.regionsWithUMN >= 2 && this.regionsWithLMN >= 2) &&
-            (this.mostRostralFinding === "umn" || (this.mostRostralFinding === "uncertain" && this.selections.tilt))) {
+            (this.mostRostralFinding === "UMN" || (this.mostRostralFinding === "uncertain" && this.selections.tilt))) {
                 return ({diagnosis: "Clinically Probable ALS",
                 explanation: `This scenario is classified as Clinically Probable ALS as there 
                 are upper motor neuron and lower motor neuron findings in two or more regions 
