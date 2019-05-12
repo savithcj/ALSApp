@@ -89,12 +89,12 @@ class App extends Component {
 
   yesButtonHandler = () => {
     this.setState({ tilt: true })
-    this.setState({revealResults: true})
+    this.setState({ revealResults: true })
   };
 
   noButtonHandler = () => {
     this.setState({ tilt: false })
-    this.setState({revealResults: true})
+    this.setState({ revealResults: true })
   };
 
   resetButtonHandler = () => {
@@ -128,9 +128,9 @@ class App extends Component {
     this.setState({ isTiltNeeded: this.results.diagnosis.isTiltConfirmationNeeded() })
 
     if (this.results.diagnosis.isTiltConfirmationNeeded()) {
-      this.setState({revealResults: false})
+      this.setState({ revealResults: false })
     } else {
-      this.setState({revealResults: true})
+      this.setState({ revealResults: true })
     }
 
   };
@@ -258,17 +258,17 @@ class App extends Component {
 
     let diagnosisResult = null;
 
-    if (this.state.revealResults){
+    if (this.state.revealResults) {
       this.revealResults();
       diagnosisResult = (
         <div className="diagResults">
-          {this.getmostRostralFinding()} <br/>
-          ElEscorial: {this.elEDiag.diagnosis} <br/>
-          {this.elEDiag.explanation} <br/>
-          AirlieHouse: {this.airlieDiag.diagnosis} <br/>
-          {this.airlieDiag.explanation} <br/>
-          AwajiShima: {this.awajiDiag.diagnosis} <br/>
-          {this.awajiDiag.explanation} <br/>
+          {this.getmostRostralFinding()} <br />
+          ElEscorial: {this.elEDiag.diagnosis} <br />
+          {this.elEDiag.explanation} <br />
+          AirlieHouse: {this.airlieDiag.diagnosis} <br />
+          {this.airlieDiag.explanation} <br />
+          AwajiShima: {this.awajiDiag.diagnosis} <br />
+          {this.awajiDiag.explanation} <br />
         </div>
       )
     };
@@ -279,7 +279,7 @@ class App extends Component {
 
       results = (
 
-        <div className = "results">
+        <div className="results">
           <div className="tilt">
             On review, does the patient have any upper motor neuron findings rostral to (i.e above)
             lower motor neuron findings?
@@ -298,7 +298,7 @@ class App extends Component {
             {diagnosisResult}
           </div>
 
-          
+
 
         </div>
       )
@@ -306,11 +306,11 @@ class App extends Component {
 
       results = (
 
-        <div className = "results">
+        <div className="results">
           <div className="tilt">
-            {diagnosisResult}  
+            {diagnosisResult}
           </div>
-          
+
         </div>
       )
 
