@@ -41,11 +41,14 @@ class Panel extends React.Component {
     const { index } = this.state;
 
     return (
+      
       <div>
 
         <SwipeableViews index={index} onChangeIndex={this.handleChangeIndex}>
           <div style={Object.assign({}, styles.slide, styles.slide1)}>{this.props.findings}</div>
+
           <div style={Object.assign({}, styles.slide, styles.slide3)}>{this.props.results}</div>
+          
         </SwipeableViews>
         <Tabs value={index} variant="fullWidth" onChange={this.handleChange} style={styles.tabs}>
           <Tab label="Findings" />

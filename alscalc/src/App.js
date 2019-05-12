@@ -85,23 +85,11 @@ class App extends Component {
   };
 
   showResults() {
-    const elE = new ElEscorial(this.state);
     const airlie = new AirlieHouse(this.state);
-    const awaji = new AwajiShima(this.state);
-
-    this.results.setDiagnosisStrategy(elE);
-
-    this.elEDiag = this.results.result;
 
     this.results.setDiagnosisStrategy(airlie);
 
-    this.airlieDiag = this.results.result;
-
-    this.results.setDiagnosisStrategy(awaji);
-
-    this.awajiDiag = this.results.result;
-
-    this.forceUpdate();
+    this.setState({isTiltNeeded: this.results.diagnosis.isTiltConfirmationNeeded()})
   };
 
   render() {
@@ -203,27 +191,30 @@ class App extends Component {
         </div>
 
       </div>
-
-
     );
 
+    let results = null;
 
-    let results = (
+    if(!this.state.isTiltNeeded){
 
-      <div>
-        <div>
-          Tilt
-            <Toggle
-            name="tilt"
-            onChange={(event) => this.tiltButtonHandler(event)}
-            checked={this.state.tilt}
-          />
-        </div>
-        ElEscoral: {this.elEDiag} <br />
-        AirlieHouse: {this.airlieDiag} <br />
-        AwajiShima: {this.awajiDiag}
-      </div>
-    )
+        results = (
+
+          <div>
+            <div className="tilt">
+              On review, does the patient have any upper motor neuron findings rostral to (i.e above)
+              lower motor neuron findings?
+                <Toggle
+                name="tilt"
+                onChange={(event) => this.tiltButtonHandler(event)}
+                checked={this.state.tilt}
+              />
+            </div>
+            ElEscorial: {this.elEDiag} <br />
+            AirlieHouse: {this.airlieDiag} <br />
+            AwajiShima: {this.awajiDiag}
+          </div>
+        )
+    };
 
     return (
       <div>
@@ -231,13 +222,10 @@ class App extends Component {
           <h1>ALS Calculator</h1>
         </div>
 
-
         <Panel
           findings={findings}
           results={results}
           changed={this.showResults} />
-
-
       </div>
     );
 

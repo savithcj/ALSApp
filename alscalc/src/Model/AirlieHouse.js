@@ -51,13 +51,13 @@ class AirlieHouse extends ElEscorial {
         const highestFibsFinding = this.calculateHighestPhysicalLevel("fibs");
         const highestChronicDenervFinding = this.calculateHighestPhysicalLevel("chronicDenerv");
 
-        const highestEMGFinding = Math.min([highestFasicsFinding, highestFibsFinding, highestChronicDenervFinding]);
+        let highestEMGFinding = Math.min(...[highestFasicsFinding, highestFibsFinding, highestChronicDenervFinding]);
 
         if (highestLMNFinding < highestUMNFinding){
             return "lmn";
         };
 
-        if (highestUMNFinding < Math.min([highestLMNFinding, highestEMGFinding])){
+        if (highestUMNFinding < Math.min(...[highestLMNFinding, highestEMGFinding])){
             return "umn";
         };
 
