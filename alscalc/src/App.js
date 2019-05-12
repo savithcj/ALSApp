@@ -106,16 +106,16 @@ class App extends Component {
     if (this.state.isTiltNeeded) {
       switch (this.state.tilt) {
         case true:
-          return `UMN findings were chosen to be rostral to LMN Findings.`;
+          return `The most rostral findings were chosen to be UMN.`;
         case false:
-          return `LMN findings were chosen to be rostral to UMN Findings.`;
+          return `The most rostral findings were chosen to be LMN.`;
         default:
           return null;
       };
     };
 
-    return (`Based on the selected values, the program has determined 
-            that the most rostral findings are ` + this.mostRostralFinding);
+    return (`Based on the selected values, the program determined 
+            that the most rostral findings were ` + this.mostRostralFinding);
   };
 
   showResults() {
@@ -263,7 +263,9 @@ class App extends Component {
       diagnosisResult = (
         <div className="diagResults">
           {this.getmostRostralFinding()} <br/>
-          ElEscorial: {this.elEDiag}
+          ElEscorial: {this.elEDiag} <br/>
+          AirlieHouse: {this.airlieDiag} <br/>
+          AwajiShima: {this.awajiDiag} <br/>
         </div>
       )
     };
