@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/ALSApp/static/css/main.6e8bdbbf.chunk.css",
+    "main.js": "/ALSApp/static/js/main.e987b462.chunk.js",
+    "main.js.map": "/ALSApp/static/js/main.e987b462.chunk.js.map",
+    "runtime~main.js": "/ALSApp/static/js/runtime~main.c0a389d8.js",
+    "runtime~main.js.map": "/ALSApp/static/js/runtime~main.c0a389d8.js.map",
+    "static/js/2.6dd5b164.chunk.js": "/ALSApp/static/js/2.6dd5b164.chunk.js",
+    "static/js/2.6dd5b164.chunk.js.map": "/ALSApp/static/js/2.6dd5b164.chunk.js.map",
+    "index.html": "/ALSApp/index.html",
+    "precache-manifest.820339e3e935021d4a41ad97de989a1d.js": "/ALSApp/precache-manifest.820339e3e935021d4a41ad97de989a1d.js",
+    "service-worker.js": "/ALSApp/service-worker.js",
+    "static/css/main.6e8bdbbf.chunk.css.map": "/ALSApp/static/css/main.6e8bdbbf.chunk.css.map"
+  }
+}
