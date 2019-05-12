@@ -14,6 +14,9 @@ const diagnosisResults = (props) => {
                 <p>
                     {props.explanation}
                 </p>
+                <p>
+                    {props.additionalInfo}
+                </p>
             </div>
         </div>
 

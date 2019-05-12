@@ -158,8 +158,12 @@ class App extends Component {
 
   render() {
 
+    let awajiInfo = `Lower motor neuron (LMN) findings can include LMN clinical findings, 
+                    (fibrillations/positive sharp waves AND chronic denervation), OR
+                    (fasciculations AND chronic denervation).`;
+
     let geneMessage = `A familial history of ALS is present, and a pathogenic 
-      gene mutation in the patient has been identified:`
+      gene mutation in the patient has been identified:`;
 
     let findings = (
       <div className="physical">
@@ -276,15 +280,20 @@ class App extends Component {
             diagnosis={this.elEDiag.diagnosis}
             explanation={this.elEDiag.explanation} />
 
+          <hr />
+
           <DiagnosisResults
             title="El Escorial Revised (Airlie House) (2000)"
             diagnosis={this.airlieDiag.diagnosis}
             explanation={this.airlieDiag.explanation} />
+          
+          <hr />
 
           <DiagnosisResults
             title="Awaji-Shima (2008)"
             diagnosis={this.awajiDiag.diagnosis}
-            explanation={this.awajiDiag.explanation} />
+            explanation={this.awajiDiag.explanation} 
+            additionalInfo={awajiInfo}/>
 
         </div>
       )
