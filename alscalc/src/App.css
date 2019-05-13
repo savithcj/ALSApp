@@ -117,8 +117,8 @@ body {
 
 .tiltButtons {
   position: absolute;
-  top: 90%;
-  margin:10px;
+  top: 75%;
+  margin:15px;
   /* left: 50%; */
   /* background-color: coral; */
 }
@@ -133,7 +133,7 @@ body {
 .diagResults {
   position: absolute;
   /* background-color: coral; */
-  margin: 40px;
+  margin: 60px;
 }
 
 @keyframes App-logo-spin {

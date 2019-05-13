@@ -8,6 +8,13 @@ import AwajiShima from './Model/AwajiShima'
 import Panel from './Components/Panel/Panel'
 import DiagnosisResults from './Components/DiagnosisResults/DiagnosisResults'
 import Button from '@material-ui/core/Button';
+import { createMuiTheme } from '@material-ui/core/styles';
+
+import lightBlue from '@material-ui/core/colors/lightBlue';
+import pink from '@material-ui/core/colors/pink';
+
+
+const muiTheme = createMuiTheme({ palette: { primary: lightBlue, secondary: pink, }, })
 
 class App extends Component {
 
@@ -38,6 +45,9 @@ class App extends Component {
 
     isTiltNeeded: null,
     revealResults: true,
+
+    yesColor:'default',
+    noColor:'default',
 
   };
 
@@ -89,13 +99,13 @@ class App extends Component {
   };
 
   yesButtonHandler = () => {
-    this.setState({ tilt: true })
-    this.setState({ revealResults: true })
+    this.setState({ tilt: true, revealResults: true, yesColor: 'primary', noColor: 'default' })
+    // this.setState({ revealResults: true })
+
   };
 
   noButtonHandler = () => {
-    this.setState({ tilt: false })
-    this.setState({ revealResults: true })
+    this.setState({ tilt: false, revealResults: true, yesColor: 'default', noColor: 'primary' })
   };
 
   resetButtonHandler = () => {
@@ -120,6 +130,9 @@ class App extends Component {
   };
 
   showResults() {
+
+    this.setState({ yesColor: 'default', noColor: 'default' })
+
     const airlie = new AirlieHouse(this.state);
 
     this.results.setDiagnosisStrategy(airlie);
@@ -157,6 +170,8 @@ class App extends Component {
   };
 
   render() {
+
+    
 
     let awajiInfo = `Lower motor neuron (LMN) findings can include LMN clinical findings, 
                     (fibrillations/positive sharp waves AND chronic denervation), OR
@@ -275,6 +290,8 @@ class App extends Component {
             </p>
           </div>
 
+          <hr />
+
           <DiagnosisResults
             title="El Escorial (1994)"
             diagnosis={this.elEDiag.diagnosis}
@@ -295,6 +312,8 @@ class App extends Component {
             explanation={this.awajiDiag.explanation} 
             additionalInfo={awajiInfo}/>
 
+          <hr />
+
         </div>
       )
     };
@@ -310,13 +329,13 @@ class App extends Component {
             On review, does the patient have any upper motor neuron findings rostral to (i.e above)
             lower motor neuron findings?
                 <div className="tiltButtons">
-              <Button variant="outlined" onClick={() => this.yesButtonHandler()}>
+              <Button variant="contained" color={this.state.yesColor} onClick={() => this.yesButtonHandler()}>
                 Yes
-                  </Button>
+              </Button>
 
-              <Button variant="outlined" onClick={() => this.noButtonHandler()}>
+              <Button variant="contained" color={this.state.noColor} onClick={() => this.noButtonHandler()}>
                 No
-                  </Button>
+              </Button>
             </div>
           </div>
 
