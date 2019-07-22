@@ -1,25 +1,22 @@
-import React, { Component } from 'react';
-import './App.css';
-import { Toggle } from "react-toggle-component"
-import Results from './Model/Results'
-import ElEscorial from './Model/ElEscorial'
-import AirlieHouse from './Model/AirlieHouse'
-import AwajiShima from './Model/AwajiShima'
-import Panel from './Components/Panel/Panel'
-import DiagnosisResults from './Components/DiagnosisResults/DiagnosisResults'
-import Button from '@material-ui/core/Button';
-import { createMuiTheme } from '@material-ui/core/styles';
+import React, { Component } from "react";
+import "./App.css";
+import { Toggle } from "react-toggle-component";
+import Results from "./Model/Results";
+import ElEscorial from "./Model/ElEscorial";
+import AirlieHouse from "./Model/AirlieHouse";
+import AwajiShima from "./Model/AwajiShima";
+import Panel from "./Components/Panel/Panel";
+import DiagnosisResults from "./Components/DiagnosisResults/DiagnosisResults";
+import Button from "@material-ui/core/Button";
+import { createMuiTheme } from "@material-ui/core/styles";
 
-import lightBlue from '@material-ui/core/colors/lightBlue';
-import pink from '@material-ui/core/colors/pink';
+import lightBlue from "@material-ui/core/colors/lightBlue";
+import pink from "@material-ui/core/colors/pink";
 
-
-const muiTheme = createMuiTheme({ palette: { primary: lightBlue, secondary: pink, }, })
+const muiTheme = createMuiTheme({ palette: { primary: lightBlue, secondary: pink } });
 
 class App extends Component {
-
   constructor(props) {
-
     super(props);
     this.results = new Results();
     this.elEDiag = null;
@@ -27,18 +24,18 @@ class App extends Component {
     this.awajiDiag = null;
     this.mostRostralFinding = "";
 
-    this.showResults = this.showResults.bind(this)
-    this.yesButtonHandler = this.yesButtonHandler.bind(this)
-    this.noButtonHandler = this.noButtonHandler.bind(this)
-  };
+    this.showResults = this.showResults.bind(this);
+    this.yesButtonHandler = this.yesButtonHandler.bind(this);
+    this.noButtonHandler = this.noButtonHandler.bind(this);
+  }
 
   state = {
-
     regions: [
       { id: "Brainstem", umn: false, lmn: false, fibs: false, fasics: false, chronicDenerv: false },
       { id: "Cervical", umn: false, lmn: false, fibs: false, fasics: false, chronicDenerv: false },
       { id: "Thoracic", umn: false, lmn: false, fibs: false, fasics: false, chronicDenerv: false },
-      { id: "Lumbosacral", umn: false, lmn: false, fibs: false, fasics: false, chronicDenerv: false }],
+      { id: "Lumbosacral", umn: false, lmn: false, fibs: false, fasics: false, chronicDenerv: false }
+    ],
 
     gene: false,
     tilt: false,
@@ -46,13 +43,11 @@ class App extends Component {
     isTiltNeeded: null,
     revealResults: true,
 
-    yesColor:'default',
-    noColor:'default',
-
+    yesColor: "default",
+    noColor: "default"
   };
 
   changedHandler = (event, id, finding) => {
-
     const regionIndex = this.state.regions.findIndex(p => {
       return p.id === id;
     });
@@ -79,41 +74,37 @@ class App extends Component {
         break;
       default:
         break;
-    };
+    }
 
     const regions = [...this.state.regions];
 
     regions[regionIndex] = region;
 
-
-    this.setState({ regions: regions })
-
+    this.setState({ regions: regions });
   };
 
-  geneButtonHandler = (event) => {
-    this.setState({ gene: event.target.checked })
+  geneButtonHandler = event => {
+    this.setState({ gene: event.target.checked });
   };
 
-  tiltButtonHandler = (event) => {
-    this.setState({ tilt: event.target.checked })
+  tiltButtonHandler = event => {
+    this.setState({ tilt: event.target.checked });
   };
 
   yesButtonHandler = () => {
-    this.setState({ tilt: true, revealResults: true, yesColor: 'primary', noColor: 'default' })
+    this.setState({ tilt: true, revealResults: true, yesColor: "primary", noColor: "default" });
     // this.setState({ revealResults: true })
-
   };
 
   noButtonHandler = () => {
-    this.setState({ tilt: false, revealResults: true, yesColor: 'default', noColor: 'primary' })
+    this.setState({ tilt: false, revealResults: true, yesColor: "default", noColor: "primary" });
   };
 
   resetButtonHandler = () => {
-    window.location.reload()
+    window.location.reload();
   };
 
   getmostRostralFinding = () => {
-
     if (this.state.isTiltNeeded) {
       switch (this.state.tilt) {
         case true:
@@ -122,35 +113,36 @@ class App extends Component {
           return `The most rostral findings were chosen to be LMN.`;
         default:
           return null;
-      };
-    };
+      }
+    }
 
-    return (`Based on the selected values, the program determined 
-            that the most rostral findings were ` + this.mostRostralFinding + ".");
+    return (
+      `Based on the selected values, the program determined 
+            that the most rostral findings were ` +
+      this.mostRostralFinding +
+      "."
+    );
   };
 
   showResults() {
-
-    this.setState({ yesColor: 'default', noColor: 'default' })
+    this.setState({ yesColor: "default", noColor: "default" });
 
     const airlie = new AirlieHouse(this.state);
 
     this.results.setDiagnosisStrategy(airlie);
 
-    this.mostRostralFinding = this.results.diagnosis.mostRostralFinding
+    this.mostRostralFinding = this.results.diagnosis.mostRostralFinding;
 
-    this.setState({ isTiltNeeded: this.results.diagnosis.isTiltConfirmationNeeded() })
+    this.setState({ isTiltNeeded: this.results.diagnosis.isTiltConfirmationNeeded() });
 
     if (this.results.diagnosis.isTiltConfirmationNeeded()) {
-      this.setState({ revealResults: false })
+      this.setState({ revealResults: false });
     } else {
-      this.setState({ revealResults: true })
+      this.setState({ revealResults: true });
     }
-
-  };
+  }
 
   revealResults() {
-
     const elE = new ElEscorial(this.state);
     const airlie = new AirlieHouse(this.state);
     const awaji = new AwajiShima(this.state);
@@ -166,13 +158,9 @@ class App extends Component {
     this.results.setDiagnosisStrategy(awaji);
 
     this.awajiDiag = this.results.result;
-
-  };
+  }
 
   render() {
-
-    
-
     let awajiInfo = `Lower motor neuron (LMN) findings can include LMN clinical findings, 
                     (fibrillations/positive sharp waves AND chronic denervation), OR
                     (fasciculations AND chronic denervation).`;
@@ -182,7 +170,6 @@ class App extends Component {
 
     let findings = (
       <div className="physical">
-
         <div className="titles">
           <span className="region">UMN</span>
           <span className="region">LMN</span>
@@ -192,64 +179,59 @@ class App extends Component {
         </div>
 
         <div className="selectors">
-
-          {this.state.regions.map((region) => {
+          {this.state.regions.map(region => {
             return (
-
               <div key={region.id}>
-                <span className="regionName">
-                  {region.id}
-                </span>
+                <span className="regionName">{region.id}</span>
 
                 <span className="toggle">
                   <Toggle
                     name={region.id + "umn"}
-                    onChange={(event) => this.changedHandler(event, region.id, 0)}
-                    checked={region.umn} />
+                    onChange={event => this.changedHandler(event, region.id, 0)}
+                    checked={region.umn}
+                  />
                 </span>
 
                 <span className="toggle">
                   <Toggle
                     className="toggle"
                     name={region.id + "lmn"}
-                    onChange={(event) => this.changedHandler(event, region.id, 1)}
-                    checked={region.lmn} />
+                    onChange={event => this.changedHandler(event, region.id, 1)}
+                    checked={region.lmn}
+                  />
                 </span>
 
                 <span className="toggle">
                   <Toggle
                     className="toggle"
                     name={region.id + "fibs"}
-                    onChange={(event) => this.changedHandler(event, region.id, 2)}
-                    checked={region.fibs} />
+                    onChange={event => this.changedHandler(event, region.id, 2)}
+                    checked={region.fibs}
+                  />
                 </span>
 
                 <span className="toggle">
                   <Toggle
                     className="toggle"
                     name={region.id + "fasics"}
-                    onChange={(event) => this.changedHandler(event, region.id, 3)}
-                    checked={region.fasics} />
+                    onChange={event => this.changedHandler(event, region.id, 3)}
+                    checked={region.fasics}
+                  />
                 </span>
 
                 <span className="toggle">
                   <Toggle
                     className="toggle"
                     name={region.id + "chronic"}
-                    onChange={(event) => this.changedHandler(event, region.id, 4)}
-                    checked={region.chronicDenerv} />
+                    onChange={event => this.changedHandler(event, region.id, 4)}
+                    checked={region.chronicDenerv}
+                  />
                 </span>
 
                 <hr />
-
               </div>
-
-            )
-          }
-
-          )
-          }
-
+            );
+          })}
         </div>
 
         <div className="gene">
@@ -258,21 +240,17 @@ class App extends Component {
             <Toggle
               className="geneToggle"
               name="gene"
-              onChange={(event) => this.geneButtonHandler(event)}
+              onChange={event => this.geneButtonHandler(event)}
               checked={this.state.gene}
             />
           </span>
-
-
         </div>
 
         <div className="reset">
           <Button className="resetButton" variant="outlined" onClick={() => this.resetButtonHandler()}>
             Reset All
           </Button>
-
         </div>
-
       </div>
     );
 
@@ -283,11 +261,8 @@ class App extends Component {
 
       diagnosisResult = (
         <div className="diagResults">
-
           <div className="rostralFinding">
-            <p>
-              {this.getmostRostralFinding()}
-            </p>
+            <p>{this.getmostRostralFinding()}</p>
           </div>
 
           <hr />
@@ -295,40 +270,40 @@ class App extends Component {
           <DiagnosisResults
             title="El Escorial (1994)"
             diagnosis={this.elEDiag.diagnosis}
-            explanation={this.elEDiag.explanation} />
+            explanation={this.elEDiag.explanation}
+          />
 
           <hr />
 
           <DiagnosisResults
             title="El Escorial Revised (Airlie House) (2000)"
             diagnosis={this.airlieDiag.diagnosis}
-            explanation={this.airlieDiag.explanation} />
-          
+            explanation={this.airlieDiag.explanation}
+          />
+
           <hr />
 
           <DiagnosisResults
             title="Awaji-Shima (2008)"
             diagnosis={this.awajiDiag.diagnosis}
-            explanation={this.awajiDiag.explanation} 
-            additionalInfo={awajiInfo}/>
+            explanation={this.awajiDiag.explanation}
+            additionalInfo={awajiInfo}
+          />
 
           <hr />
-
         </div>
-      )
-    };
+      );
+    }
 
     let results = null;
 
     if (this.state.isTiltNeeded) {
-
       results = (
-
         <div className="results">
           <div className="tilt">
-            On review, does the patient have any upper motor neuron findings rostral to (i.e above)
-            lower motor neuron findings?
-                <div className="tiltButtons">
+            On review, does the patient have any upper motor neuron findings rostral to (i.e above) lower motor neuron
+            findings?
+            <div className="tiltButtons">
               <Button variant="contained" color={this.state.yesColor} onClick={() => this.yesButtonHandler()}>
                 Yes
               </Button>
@@ -340,21 +315,11 @@ class App extends Component {
           </div>
 
           {diagnosisResult}
-
         </div>
-      )
+      );
     } else {
-
-      results = (
-
-        <div className="results">
-
-          {diagnosisResult}
-
-        </div>
-      )
-
-    };
+      results = <div className="results">{diagnosisResult}</div>;
+    }
 
     return (
       <div>
@@ -362,15 +327,10 @@ class App extends Component {
           <h1>ALS Calculator</h1>
         </div>
 
-        <Panel
-          findings={findings}
-          results={results}
-          changed={this.showResults} />
+        <Panel findings={findings} results={results} changed={this.showResults} />
       </div>
     );
-
-  };
-
-};
+  }
+}
 
 export default App;

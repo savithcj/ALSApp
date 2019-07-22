@@ -30,78 +30,78 @@ body {
 .title {
   position: absolute;
   text-align: center;
-  top:0px;
+  top: 0px;
   width: 100%;
   background-color: #363636;
   color: #fff;
 }
 
 .regionName {
-  display:inline-block;
-  padding:10px;
-  margin:10px;
-  height:20px;
+  display: inline-block;
+  padding: 10px;
+  margin: 10px;
+  height: 20px;
   width: 150px;
   text-align: left;
 }
 
 .physical {
   position: relative;
-  width:1000px;
-  height:500px;
+  width: 1000px;
+  height: 500px;
   overflow: auto;
   /* background-color: #61dafb; */
-  top:40px
+  top: 40px;
 }
 
 .selectors {
   position: absolute;
   width: 950px;
-  top:75px;
+  top: 75px;
 }
 
 .titles {
   position: absolute;
-  width:950px;
-  height:70px;
+  width: 950px;
+  height: 70px;
   /* background-color: #fb61ae; */
 }
 
 .region {
   position: relative;
-  display:inline-block;
-  line-height:20px;
+  display: inline-block;
+  line-height: 20px;
   width: 150px;
   text-align: center;
-  left:140px;
+  left: 140px;
   /* background-color: aqua; */
 }
 
 .toggle {
-  display:inline-block;
-  width:150px;
+  display: inline-block;
+  width: 150px;
   /* background-color:violet ; */
 }
 
 .gene {
   position: absolute;
   width: 850px;
-  bottom:30px;
-  padding:10px;
-  margin:10px;  
+  bottom: 30px;
+  padding: 10px;
+  margin: 10px;
   /* background-color: #61dafb; */
 }
 
 .geneToggle {
-  display:inline-block;
-  left:50px;
+  display: inline-block;
+  left: 50px;
   /* background-color: bisque; */
 }
 
 .reset {
   position: absolute;
   bottom: 0px;
-  right:10%;
+  right: 10%;
 }
 
 .tilt {
@@ -111,21 +111,21 @@ body {
   position: relative;
   width: 100%;
   height: 100%;
-  top:10%;
+  top: 10%;
   /* background-color: aquamarine; */
 }
 
 .tiltButtons {
   position: absolute;
   top: 75%;
-  margin:15px;
+  margin: 15px;
   /* left: 50%; */
   /* background-color: coral; */
 }
 
 .results {
   position: relative;
-  width:100%;
+  width: 100%;
   height: 100%;
   /* background-color: aquamarine; */
 }
