@@ -51,17 +51,26 @@ class AwajiShima extends AirlieHouse {
       };
     }
 
-    if (this.regionsWithUMN >= 2) {
+    if (this.regionsWithUMN >= 2 && this.regionsWithLMN == 0) {
       return {
         diagnosis: "Clinically Possible ALS",
-        explanation: `This scenario is classified as Clinically Possible ALS as there 
-                are upper motor neuron signs “alone” in two or more regions. We interpret 
-                “alone” as meaning that these findings “on their own” would satisfy the 
-                criteria for possible ALS.`
+        explanation: `This scenario is classified as Possible ALS as there are upper motor
+                     neuron signs “alone” in two or more regions.`
       };
     }
 
-    if (this.UMNLevel > this.LMNLevel && this.regionsWithUMN > 0) {
+    if (this.regionsWithUMN >= 2 && this.regionsWithLMN > 0) {
+      return {
+        diagnosis: "Clinically Possible ALS or NIL - Please see explanation below",
+        explanation: `This scenario is classified as Possible ALS as there are upper motor
+                     neuron signs “alone” in two or more regions. We interpret “alone” as meaning that
+                     these findings “on their own” would satisfy the criteria for possible ALS. If we interpret 
+                     "alone" to mean absolutely NO lower motor neuron signs are present, the pattern would not fit within the Awaji-Shima
+                     criteria classification scheme.`
+      };
+    }
+
+    if (this.UMNLevel > this.LMNLevel && this.regionsWithUMN > 1 && this.regionsWithLMN > 1) {
       return {
         diagnosis: "Clinically Possible ALS",
         explanation: `This scenario is classified as Clinically Possible ALS 
