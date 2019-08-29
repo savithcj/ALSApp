@@ -10,10 +10,13 @@
     "gh-pages": "^2.0.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-redux": "^7.1.0",
     "react-scripts": "3.0.0",
     "react-swipeable-views": "^0.13.3",
     "react-switch": "^5.0.0",
-    "react-toggle-component": "^2.0.6"
+    "react-toggle-component": "^2.0.6",
+    "redux": "^4.0.4",
+    "redux-thunk": "^2.3.0"
   },
   "scripts": {
     "start": "react-scripts start",

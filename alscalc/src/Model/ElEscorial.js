@@ -139,7 +139,6 @@ class ElEscorial {
     return false;
   }
 
-  //returns true if a finding is present according to the El Escorial criteria
   isFindingPresent(finding, region) {
     return this.isPhysicalFindingPresent(finding, region);
   }
