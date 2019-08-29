@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/ALSApp/precache-manifest.b40edb8e26769e21e0938e01fc78b6ec.js"
+  "/ALSApp/precache-manifest.0f988de949c6947a060a4fa9c088c0f0.js"
 );
 
 self.addEventListener('message', (event) => {
