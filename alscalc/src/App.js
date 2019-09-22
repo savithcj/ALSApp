@@ -56,6 +56,9 @@ class App extends Component {
       ...this.state.regions[regionIndex]
     };
 
+    console.log("[CHECK SPREAD OP]", ...this.state.regions);
+    console.log("[CHECK without SPREAD OP]", this.state.regions);
+
     switch (finding) {
       case 0:
         region.umn = event.target.checked;
@@ -326,8 +329,11 @@ class App extends Component {
         <div className="title">
           <h1>ALS Calculator</h1>
         </div>
-
-        <Panel findings={findings} results={results} changed={this.showResults} />
+        {this.props.threePanels ? (
+          <Panel findings={findings} findings2={findings} results={results} changed={this.showResults} />
+        ) : (
+          <Panel findings={findings} results={results} changed={this.showResults} />
+        )}
       </div>
     );
   }

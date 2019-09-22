@@ -10,7 +10,7 @@ const styles = {
   },
 
   slide: {
-    padding: 50,
+    padding: 85,
     minHeight: 100,
     color: "#000",
     display: "flex",
@@ -42,17 +42,13 @@ class Panel extends React.Component {
     return (
       <div>
         <SwipeableViews index={index} onChangeIndex={this.handleChangeIndex}>
-          <div style={styles.slide}>{this.props.findings}</div>
-          {this.props.findings2 ? (
-            <div style={styles.slide}>{this.props.findings2}</div>
-          ) : (
-            <div style={styles.slide}>{this.props.results}</div>
-          )}
-          <div style={styles.slide}>{this.props.results}</div>
+          <div style={Object.assign({}, styles.slide, styles.slide1)}>{this.props.findings}</div>
+
+          <div style={Object.assign({}, styles.slide, styles.slide3)}>{this.props.results}</div>
         </SwipeableViews>
         <Tabs value={index} variant="fullWidth" onChange={this.handleChange} style={styles.tabs}>
           <Tab label="Findings" />
-          {this.props.findings2 ? <Tab label="Findings 2" /> : null}
+          <Tab label="Findings2" />
           <Tab label="Results" />
         </Tabs>
       </div>
