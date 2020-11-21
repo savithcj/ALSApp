@@ -9,6 +9,7 @@ import Panel from "./Components/Panel/Panel";
 import DiagnosisResults from "./Components/DiagnosisResults/DiagnosisResults";
 import Button from "@material-ui/core/Button";
 import { createMuiTheme } from "@material-ui/core/styles";
+import CsvDownloader from "./Components/CsvDownloader/CsvDownloader";
 
 import lightBlue from "@material-ui/core/colors/lightBlue";
 import pink from "@material-ui/core/colors/pink";
@@ -34,7 +35,7 @@ class App extends Component {
       { id: "Brainstem", umn: false, lmn: false, fibs: false, fasics: false, chronicDenerv: false },
       { id: "Cervical", umn: false, lmn: false, fibs: false, fasics: false, chronicDenerv: false },
       { id: "Thoracic", umn: false, lmn: false, fibs: false, fasics: false, chronicDenerv: false },
-      { id: "Lumbosacral", umn: false, lmn: false, fibs: false, fasics: false, chronicDenerv: false }
+      { id: "Lumbosacral", umn: false, lmn: false, fibs: false, fasics: false, chronicDenerv: false },
     ],
 
     gene: false,
@@ -44,16 +45,16 @@ class App extends Component {
     revealResults: true,
 
     yesColor: "default",
-    noColor: "default"
+    noColor: "default",
   };
 
   changedHandler = (event, id, finding) => {
-    const regionIndex = this.state.regions.findIndex(p => {
+    const regionIndex = this.state.regions.findIndex((p) => {
       return p.id === id;
     });
 
     const region = {
-      ...this.state.regions[regionIndex]
+      ...this.state.regions[regionIndex],
     };
 
     switch (finding) {
@@ -83,11 +84,11 @@ class App extends Component {
     this.setState({ regions: regions });
   };
 
-  geneButtonHandler = event => {
+  geneButtonHandler = (event) => {
     this.setState({ gene: event.target.checked });
   };
 
-  tiltButtonHandler = event => {
+  tiltButtonHandler = (event) => {
     this.setState({ tilt: event.target.checked });
   };
 
@@ -179,7 +180,7 @@ class App extends Component {
         </div>
 
         <div className="selectors">
-          {this.state.regions.map(region => {
+          {this.state.regions.map((region) => {
             return (
               <div key={region.id}>
                 <span className="regionName">{region.id}</span>
@@ -187,7 +188,7 @@ class App extends Component {
                 <span className="toggle">
                   <Toggle
                     name={region.id + "umn"}
-                    onChange={event => this.changedHandler(event, region.id, 0)}
+                    onChange={(event) => this.changedHandler(event, region.id, 0)}
                     checked={region.umn}
                   />
                 </span>
@@ -196,7 +197,7 @@ class App extends Component {
                   <Toggle
                     className="toggle"
                     name={region.id + "lmn"}
-                    onChange={event => this.changedHandler(event, region.id, 1)}
+                    onChange={(event) => this.changedHandler(event, region.id, 1)}
                     checked={region.lmn}
                   />
                 </span>
@@ -205,7 +206,7 @@ class App extends Component {
                   <Toggle
                     className="toggle"
                     name={region.id + "fibs"}
-                    onChange={event => this.changedHandler(event, region.id, 2)}
+                    onChange={(event) => this.changedHandler(event, region.id, 2)}
                     checked={region.fibs}
                   />
                 </span>
@@ -214,7 +215,7 @@ class App extends Component {
                   <Toggle
                     className="toggle"
                     name={region.id + "fasics"}
-                    onChange={event => this.changedHandler(event, region.id, 3)}
+                    onChange={(event) => this.changedHandler(event, region.id, 3)}
                     checked={region.fasics}
                   />
                 </span>
@@ -223,7 +224,7 @@ class App extends Component {
                   <Toggle
                     className="toggle"
                     name={region.id + "chronic"}
-                    onChange={event => this.changedHandler(event, region.id, 4)}
+                    onChange={(event) => this.changedHandler(event, region.id, 4)}
                     checked={region.chronicDenerv}
                   />
                 </span>
@@ -240,7 +241,7 @@ class App extends Component {
             <Toggle
               className="geneToggle"
               name="gene"
-              onChange={event => this.geneButtonHandler(event)}
+              onChange={(event) => this.geneButtonHandler(event)}
               checked={this.state.gene}
             />
           </span>
@@ -291,6 +292,9 @@ class App extends Component {
           />
 
           <hr />
+          <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 16 }}>
+            <CsvDownloader colNames={Object.keys(this.state.regions[0])} data={this.state.regions} />
+          </div>
         </div>
       );
     }
