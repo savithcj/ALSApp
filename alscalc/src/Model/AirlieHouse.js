@@ -12,18 +12,13 @@ class AirlieHouse extends ElEscorial {
   }
 
   calculateDiagnosis() {
-    console.log("UMN regions: " + this.regionsWithUMN);
-    console.log("LMN regions: " + this.regionsWithLMN);
-    console.log("EMG LMN regions: " + this.regionsWithLMNByEMGOnly);
-    console.log("Most rostal: " + this.mostRostralFinding);
-
     if (this.regionsWithUMN >= 1 && this.regionsWithLMN >= 1 && this.selections.gene) {
       return {
         diagnosis: "Clinically Definite Familial ALS - Lab Supported",
         explanation: `This scenario is classified as Clinically Definite Familial
                     ALS - Laboratory Supported as there are upper and lower motor neuron signs
                     in at least a single region as well as a family history of a defined 
-                    pathogenic mutation.`
+                    pathogenic mutation.`,
       };
     }
 
@@ -37,7 +32,7 @@ class AirlieHouse extends ElEscorial {
         explanation: `This scenario is classified as Clinically Definite ALS as 
                     there are upper motor neuron and lower motor neuron findings in the
                     brainstem as well as upper motor neuron and lower motor neuron findings
-                    in two or more spinal regions.`
+                    in two or more spinal regions.`,
       };
     }
 
@@ -46,7 +41,7 @@ class AirlieHouse extends ElEscorial {
         diagnosis: "Clinically Definite ALS",
         explanation: `This scenario is classified as Clinically Definite ALS as
                     there are upper motor neuron and lower motor neuron findings in all 
-                    three spinal regions.`
+                    three spinal regions.`,
       };
     }
 
@@ -60,7 +55,7 @@ class AirlieHouse extends ElEscorial {
         explanation: `This scenario is classified as Clinically Probable ALS as
                         there are upper motor neuron and lower motor neuron findings in two or 
                         more regions and some upper motor neuron signs are rostral to lower 
-                        motor neuron signs.`
+                        motor neuron signs.`,
       };
     }
 
@@ -77,7 +72,7 @@ class AirlieHouse extends ElEscorial {
                         motor neuron dysfunction in at least one region and lower motor 
                         neuron signs defined by EMG criteria are present in at least two 
                         regions. In addition, upper motor neuron signs are rostral to 
-                        lower motor neuron signs.`
+                        lower motor neuron signs.`,
       };
     }
 
@@ -86,7 +81,7 @@ class AirlieHouse extends ElEscorial {
         diagnosis: "Clinically Possible ALS",
         explanation: `This scenario is classified as Clinically Possible 
                     ALS as there are upper motor neuron and lower motor neuron signs 
-                    in one region.`
+                    in one region.`,
       };
     }
 
@@ -94,7 +89,7 @@ class AirlieHouse extends ElEscorial {
       return {
         diagnosis: "Clinically Possible ALS",
         explanation: `This scenario is classified as Possible ALS as there are upper motor
-                     neuron signs “alone” in two or more regions.`
+                     neuron signs “alone” in two or more regions.`,
       };
     }
 
@@ -105,7 +100,7 @@ class AirlieHouse extends ElEscorial {
                      neuron signs “alone” in two or more regions. We interpret “alone” as meaning that
                      these findings “on their own” would satisfy the criteria for possible ALS. If we interpret 
                      "alone" to mean absolutely NO lower motor neuron signs are present, the pattern would not fit within the El Escorial Revised (Airlie House)
-                     criteria classification scheme.`
+                     criteria classification scheme.`,
       };
     }
 
@@ -114,14 +109,14 @@ class AirlieHouse extends ElEscorial {
         diagnosis: "Clinically Possible ALS",
         explanation: `This scenario is classified as Clinically Possible 
                     ALS as lower motor neuron signs are rostral to upper motor 
-                    neuron signs.`
+                    neuron signs.`,
       };
     }
 
     return {
       diagnosis: "--",
       explanation: `A valid diagnosis is not available for the selected findings based
-                on the El Escorial revised (Airlie House) criteria.`
+                on the El Escorial revised (Airlie House) criteria.`,
     };
   }
 
@@ -185,7 +180,7 @@ class AirlieHouse extends ElEscorial {
   }
 
   isLMNFindingPresent(region) {
-    const regionIndex = this.selections.regions.findIndex(r => {
+    const regionIndex = this.selections.regions.findIndex((r) => {
       return r.id === region;
     });
 
